@@ -61,7 +61,7 @@ namespace HMZ.Service.Extensions
                         {
                             context.Token = accessToken;
                         }
-                        return Task.CompletedTask;
+                        return System.Threading.Tasks.Task.CompletedTask;
                     }
                 };
             });

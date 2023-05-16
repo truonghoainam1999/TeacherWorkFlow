@@ -35,7 +35,7 @@ namespace HMZ.Service.Validator
             {
                 result.Add(new ValidationResult("Email or Username does not exist", new[] { nameof(entity.Email) }));
             }
-            return await Task.FromResult(result);
+            return await System.Threading.Tasks.Task.FromResult(result);
         }
 
     }

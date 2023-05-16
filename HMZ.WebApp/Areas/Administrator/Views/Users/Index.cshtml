@@ -482,8 +482,8 @@
 
 		GetUsers(1,10);
 
-		function GetUsers(pageNumber,pageSize) {
-			$.ajax({
+	async function GetUsers(pageNumber,pageSize) {
+		await	$.ajax({
 				url: '/Administrator/Users/GetAll',
 				type: 'POST',
 				data: { pageNumber: pageNumber,pageSize: pageSize},

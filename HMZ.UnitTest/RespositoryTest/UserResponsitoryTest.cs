@@ -32,7 +32,7 @@ namespace HMZ.UnitTest.RespositoryTest
         }
 
         [Fact]
-        public async Task AddUser_ShouldAddUserToList()
+        public async System.Threading.Tasks.Task AddUser_ShouldAddUserToList()
         {
             // Arrange
             var user = new User
@@ -53,7 +53,7 @@ namespace HMZ.UnitTest.RespositoryTest
         }
 
         [Fact]
-        public async Task GetUser_ShouldReturnCorrectUser()
+        public async System.Threading.Tasks.Task GetUser_ShouldReturnCorrectUser()
         {
             // Arrange
             var user1 = new User
@@ -85,7 +85,7 @@ namespace HMZ.UnitTest.RespositoryTest
         }
 
         [Fact]
-        public async Task GetUser_ShouldReturnNullWhenUserNotFound()
+        public async System.Threading.Tasks.Task GetUser_ShouldReturnNullWhenUserNotFound()
         {
             // Arrange
             var user = new User
@@ -107,7 +107,7 @@ namespace HMZ.UnitTest.RespositoryTest
         }
 
         [Fact]
-        public async Task GetUsers_ShouldReturnAllUsers()
+        public async System.Threading.Tasks.Task GetUsers_ShouldReturnAllUsers()
         {
             // Arrange
             var user = new User

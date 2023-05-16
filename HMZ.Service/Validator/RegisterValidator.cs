@@ -44,7 +44,7 @@ namespace HMZ.Service.Validator
             {
                 result.Add(new ValidationResult("Email already exists", new[] { nameof(entity.Email) }));
             }
-            return await Task.FromResult(result);
+            return await System.Threading.Tasks.Task.FromResult(result);
         }
 
     }

@@ -144,7 +144,7 @@ namespace HMZ.Service.Services.UserServices
                 CreatedBy = x.CreatedBy,
                 IsActive = x.IsActive
             }).ToList();
-            return Task.FromResult(response);
+            return System.Threading.Tasks.Task.FromResult(response);
         }
         public async Task<DataResult<int>> UpdateAsync(UserQuery entity, string id)
         {

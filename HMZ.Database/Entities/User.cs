@@ -11,6 +11,7 @@ namespace HMZ.Database.Entities
 
         // Foreign key
         public List<RolePermission>? UserPermissions { get; set; }
+        public List<TaskWork>? Tasks { get; set; }
 
         // Base
         public Boolean? IsActive { get; set; }

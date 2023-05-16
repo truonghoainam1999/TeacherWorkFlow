@@ -20,7 +20,7 @@ namespace HMZ.Database.Data
         {
             if (!options.IsConfigured)
             {
-                options.UseSqlServer("Server=.;Database=HMZScroure;Trusted_Connection=True;TrustServerCertificate=True;");
+                options.UseSqlServer("Server=.;Database=TeacherWork_DB;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,5 +31,11 @@ namespace HMZ.Database.Data
 
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
-    }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<TaskWork> Tasks { get; set; }
+        public DbSet<Department> Departments { get; set; }
+
+	}
 }

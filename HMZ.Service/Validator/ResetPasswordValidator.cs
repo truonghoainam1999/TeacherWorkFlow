@@ -46,7 +46,7 @@ namespace HMZ.Service.Validator
                     result.Add(new ValidationResult("Old password is not correct", new[] { nameof(entity.OldPassword) }));
                 }
             }
-            return await Task.FromResult(result);
+            return await System.Threading.Tasks.Task.FromResult(result);
         }
     }
 }
