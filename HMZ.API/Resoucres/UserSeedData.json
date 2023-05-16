@@ -1,0 +1,25 @@
+[
+  {
+    "FirstName": "System",
+    "LastName": "Admin",
+    "UserName": "admin",
+    "Image": "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg",
+    "Email": "admin@hmz.com"
+  },
+  {
+    "FirstName": "System",
+    "LastName": "Mod",
+    "UserName": "mod",
+    "Image": "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg",
+    "Email": "mod@hmz.com"
+
+  },
+  {
+    "FirstName": "System",
+    "LastName": "Member",
+    "UserName": "member",
+    "Image": "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg",
+    "Email": "member@hmz.com"
+  }
+]
+

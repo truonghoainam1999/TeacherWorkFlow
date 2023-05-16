@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MailKit" Version="3.5.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+		<PackageReference Include="MimeKit" Version="3.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\HMZ.Database\HMZ.Database.csproj" />
+		<ProjectReference Include="..\HMZ.DTOs\HMZ.DTOs.csproj" />
+		<ProjectReference Include="..\HMZ.SDK\HMZ.SDK.csproj" />
+	</ItemGroup>
+
+</Project>
