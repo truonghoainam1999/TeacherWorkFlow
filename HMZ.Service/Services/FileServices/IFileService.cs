@@ -6,6 +6,5 @@ namespace HMZ.Service.Services.FileServices
     {
         Task<string> UploadFileAsync(IFormFile file);
         bool DeleteFile(string fileName);
-
     }
 }

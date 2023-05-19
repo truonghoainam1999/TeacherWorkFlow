@@ -9,6 +9,7 @@ namespace HMZ.DTOs.Queries
         public String? Password { get; set; }  
         public String? FirstName { get; set; } 
         public String? LastName { get; set; } 
+        public String? CodeDepartment { get; set; }
         public String[]? Role { get; set; } 
         public DateTime? DateOfBirth { get; set; } 
         public DateTime? CreatedAt { get; set; } 

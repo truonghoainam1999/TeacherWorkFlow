@@ -1,8 +1,8 @@
-using HMZ.Database.Entities.Base;
+﻿using HMZ.Database.Entities.Base;
 
 namespace HMZ.Database.Entities
 {
-    public class Room : BaseEntity
+    public class Room : BaseEntity // lớp
     {
         public String? Name { get; set; }
         public String? Description { get; set; }

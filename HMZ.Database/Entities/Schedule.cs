@@ -1,8 +1,8 @@
-using HMZ.Database.Entities.Base;
+﻿using HMZ.Database.Entities.Base;
 
 namespace HMZ.Database.Entities
 {
-    public class Schedule : BaseEntity
+    public class Schedule : BaseEntity // Thời khóa biểu
     {
         public String? Time { get; set; }
         public String? Day { get; set; }

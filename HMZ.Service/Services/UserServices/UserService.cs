@@ -46,7 +46,8 @@ namespace HMZ.Service.Services.UserServices
                 LastName = entity.LastName,
                 Email = entity.Email,
                 UserName = entity.Email.Split("@")[0].ToLower(),
-                DateOfBirth = entity.DateOfBirth.Value
+                DateOfBirth = entity.DateOfBirth.Value,
+
             };
             var result = await _userManager.CreateAsync(user, entity.Password);
             if (!result.Succeeded)
