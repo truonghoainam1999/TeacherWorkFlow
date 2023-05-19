@@ -27,6 +27,15 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
                 Success = false,
                 Message = new string[] { message },
             });
-        } 
+        }
+        // response error
+        protected IActionResult ResponseErrors(List<string> messages)
+        {
+            return Ok(new
+            {
+                Success = false,
+                Message = messages,
+            });
+        }
     }
 }

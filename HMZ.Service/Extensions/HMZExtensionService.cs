@@ -6,6 +6,7 @@ using HMZ.Service.Services;
 using HMZ.Service.Services.DashboardServices;
 using HMZ.Service.Services.FileServices;
 using HMZ.Service.Services.PermissionServices;
+using HMZ.Service.Services.RoleServices;
 using HMZ.Service.Services.TokenServices;
 using HMZ.Service.Services.UserServices;
 using HMZ.Service.Validator;
@@ -28,9 +29,10 @@ namespace HMZ.Service.Extensions
             // Custom DI
 
             services.AddTransient(typeof(IUserService), typeof(UserService));
-            services.AddTransient(typeof(IFileService), typeof(FileService));
+			services.AddTransient(typeof(IFileService), typeof(FileService));
             services.AddTransient(typeof(IMailService), typeof(MailService));
             services.AddTransient(typeof(IPermissionService), typeof(PermissionService));
+            services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(IDashboardService), typeof(DashboardService));
 
 
