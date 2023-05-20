@@ -120,6 +120,7 @@ namespace HMZ.Service.Services.PermissionServices
                     UpdatedAt = x.Permission.UpdatedAt,
                     IsActive = x.Permission.IsActive,
                     RoleName = x.Role.Name,
+
                 })
                 .ApplyFilter(query)
                 .OrderByColums(query.SortColums, true)

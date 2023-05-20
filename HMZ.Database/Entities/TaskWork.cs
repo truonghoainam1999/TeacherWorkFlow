@@ -10,7 +10,5 @@ namespace HMZ.Database.Entities
         public User? User { get; set; }
         public Guid? SubjectId { get; set; }
         public Subject? Subject { get; set; }
-
-        
     }
 }
