@@ -15,20 +15,22 @@ namespace HMZ.Service.Validator.ModelValidators
        
         public  async Task<List<ValidationResult>> ValidateAsync(SubjectQuery entity, string? userName = null, bool? isUpdate = false)
         {
-            if (entity == null)
+            
+
+			if (entity == null)
             {
                 return new List<ValidationResult>(){
                     new ValidationResult("Entity is null", new[] { nameof(entity) })
                 };
             }
             // check exist for add  
-            if (isUpdate != true)
+            if (isUpdate == false)
             {
                 var subject = await _subjectService.GetByCodeAsync(entity.Code);
-                if (subject != null)
+                if (subject.Entity != null)
                 {
                     return new List<ValidationResult>(){
-                    new ValidationResult("Permission is exist", new[] { nameof(entity.Code) })
+                    new ValidationResult("Subject is exist", new[] { nameof(entity.Code) })
                 };
                 }
             }
@@ -37,7 +39,7 @@ namespace HMZ.Service.Validator.ModelValidators
                 ValidatorCustom.IsRequired(nameof(entity.Name), entity.Name),
                 ValidatorCustom.IsRequired(nameof(entity.DepartmentId), entity.DepartmentId),
             };
-            return await Task.FromResult(result);
+            return result;
         }
     }
 }

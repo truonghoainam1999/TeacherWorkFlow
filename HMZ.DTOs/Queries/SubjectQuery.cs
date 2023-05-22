@@ -6,6 +6,6 @@ namespace HMZ.DTOs.Queries
     {
         public String? Name { get; set; }
         public String? Description { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public String? DepartmentId { get; set; }
     }
 }

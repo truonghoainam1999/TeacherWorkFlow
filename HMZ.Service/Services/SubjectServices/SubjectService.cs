@@ -42,7 +42,7 @@ namespace HMZ.Service.Services.SubjectServices
             {
                 Name = entity.Name,
                 Description = entity.Description,
-                DepartmentId = entity.DepartmentId
+                DepartmentId = Guid.Parse(entity.DepartmentId)
             };
             await _unitOfWork.GetRepository<Subject>().Add(subject);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
@@ -165,8 +165,9 @@ namespace HMZ.Service.Services.SubjectServices
             }
             subject.Name = entity.Name;
             subject.Description = entity.Description;
-            subject.DepartmentId = entity.DepartmentId;
-            _unitOfWork.GetRepository<Subject>().Update(subject);
+            subject.DepartmentId = Guid.Parse(entity.DepartmentId);
+
+			_unitOfWork.GetRepository<Subject>().Update(subject);
             result.Entity = await _unitOfWork.SaveChangesAsync();
             return result;
         }

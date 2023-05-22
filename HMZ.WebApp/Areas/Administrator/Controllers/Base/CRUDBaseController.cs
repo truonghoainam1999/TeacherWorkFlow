@@ -38,13 +38,22 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] T1 query)
         {
-            var method = _service.GetType().GetMethod("CreateAsync");
-            if (method == null)
+            try
             {
-                return BadRequest("CreateAsync method not found");
+				var method = _service.GetType().GetMethod("CreateAsync");
+				if (method == null)
+				{
+					return BadRequest("CreateAsync method not found");
+				}
+				var result = await (Task<DataResult<bool>>)method.Invoke(_service, new object[] { query });
+				return result.Entity ? Ok(result) : BadRequest(result);
+			}
+            catch (Exception ex)
+            {
+
+				return BadRequest(ex.Message) ;
             }
-            var result = await (Task<DataResult<bool>>)method.Invoke(_service, new object[] { query });
-            return result.Entity ? Ok(result) : BadRequest(result);
+            
         }
 
         [HttpPost]

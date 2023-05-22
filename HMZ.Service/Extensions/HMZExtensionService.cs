@@ -4,6 +4,7 @@ using HMZ.DTOs.Queries;
 using HMZ.Service.MailServices;
 using HMZ.Service.Services;
 using HMZ.Service.Services.DashboardServices;
+using HMZ.Service.Services.DepartmentServices;
 using HMZ.Service.Services.FileServices;
 using HMZ.Service.Services.PermissionServices;
 using HMZ.Service.Services.RoleServices;
@@ -37,6 +38,8 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(IDashboardService), typeof(DashboardService));
             services.AddTransient(typeof(ISubjectService), typeof(SubjectService));
+            services.AddTransient(typeof(IDepartmentService), typeof(DepartmentService));
+            
             
 
 
