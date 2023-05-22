@@ -28,7 +28,6 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
 		{
             var departments = await _departmentService.GetAll();
             ViewBag.Departments = departments.Items;
-
 			return View();
 		}
 	}
