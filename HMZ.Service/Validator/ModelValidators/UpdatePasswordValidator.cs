@@ -1,18 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using HMZ.Database.Entities;
 using HMZ.DTOs.Queries;
 using HMZ.Service.Extensions;
-using Microsoft.AspNetCore.Identity;
 
-namespace HMZ.Service.Validator
+namespace HMZ.Service.Validator.ModelValidators
 {
-    public class ResetPasswordValidator : IValidator<UpdatePasswordQuery>
+    public class UpdatePasswordValidator : IValidator<UpdatePasswordQuery>
     {
-        private readonly UserManager<User> _userManager;
-        public ResetPasswordValidator(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
         public async Task<List<ValidationResult>> ValidateAsync(UpdatePasswordQuery entity, string? userName = null, bool? isUpdate = false)
         {
             if (entity == null)
@@ -32,21 +25,7 @@ namespace HMZ.Service.Validator
                 ValidatorCustom.Password(nameof(entity.ConfirmPassword), entity.ConfirmPassword),
                 ValidatorCustom.ConfirmPassword(nameof(entity.ConfirmPassword), entity.ConfirmPassword, entity.NewPassword),
             };
-            // check tokem is valid
-            var user = await _userManager.FindByEmailAsync(entity.Email);
-            if (user == null)
-            {
-                result.Add(new ValidationResult("Email is not exist", new[] { nameof(entity.Email) }));
-            }
-            else
-            {
-                var checkPassword = await _userManager.CheckPasswordAsync(user, entity.OldPassword);
-                if (!checkPassword)
-                {
-                    result.Add(new ValidationResult("Old password is not correct", new[] { nameof(entity.OldPassword) }));
-                }
-            }
-            return await System.Threading.Tasks.Task.FromResult(result);
+            return await Task.FromResult(result);
         }
     }
 }

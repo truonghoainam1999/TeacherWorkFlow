@@ -7,9 +7,11 @@ using HMZ.Service.Services.DashboardServices;
 using HMZ.Service.Services.FileServices;
 using HMZ.Service.Services.PermissionServices;
 using HMZ.Service.Services.RoleServices;
+using HMZ.Service.Services.SubjectServices;
 using HMZ.Service.Services.TokenServices;
 using HMZ.Service.Services.UserServices;
 using HMZ.Service.Validator;
+using HMZ.Service.Validator.ModelValidators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,8 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IPermissionService), typeof(PermissionService));
             services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(IDashboardService), typeof(DashboardService));
+            services.AddTransient(typeof(ISubjectService), typeof(SubjectService));
+            
 
 
             #endregion
@@ -48,6 +52,8 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IValidator<UpdatePasswordQuery>), typeof(ResetPasswordValidator));
             services.AddTransient(typeof(IValidator<LoginQuery>), typeof(LoginValidator));
             services.AddTransient(typeof(IValidator<PermissionQuery>), typeof(PermissionValidator));
+            services.AddTransient(typeof(IValidator<RoleQuery>), typeof(RoleValidator));
+            services.AddTransient(typeof(IValidator<SubjectQuery>), typeof(SubjectValidator));
 
 
 

@@ -3,12 +3,12 @@ using HMZ.DTOs.Queries;
 using HMZ.Service.Extensions;
 using HMZ.Service.Services.RoleServices;
 
-namespace HMZ.Service.Validator
+namespace HMZ.Service.Validator.ModelValidators
 {
     public class RoleValidator : IValidator<RoleQuery>
     {
         private readonly IRoleService _roleService;
-        public RoleValidator( IRoleService roleService)
+        public RoleValidator(IRoleService roleService)
         {
             _roleService = roleService;
         }

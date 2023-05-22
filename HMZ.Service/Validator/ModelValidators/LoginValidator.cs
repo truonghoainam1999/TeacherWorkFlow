@@ -4,7 +4,7 @@ using HMZ.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace HMZ.Service.Validator
+namespace HMZ.Service.Validator.ModelValidators
 {
     public class LoginValidator : IValidator<LoginQuery>
     {
@@ -35,7 +35,7 @@ namespace HMZ.Service.Validator
             {
                 result.Add(new ValidationResult("Email or Username does not exist", new[] { nameof(entity.Email) }));
             }
-            return await System.Threading.Tasks.Task.FromResult(result);
+            return await Task.FromResult(result);
         }
 
     }

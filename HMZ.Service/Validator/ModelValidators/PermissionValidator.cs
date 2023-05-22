@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using HMZ.DTOs.Queries;
 using HMZ.Service.Extensions;
 
-namespace HMZ.Service.Validator
+namespace HMZ.Service.Validator.ModelValidators
 {
     public class PermissionValidator : IValidator<PermissionQuery>
     {

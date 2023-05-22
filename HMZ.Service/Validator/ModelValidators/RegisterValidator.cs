@@ -4,7 +4,7 @@ using HMZ.DTOs.Queries;
 using HMZ.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace HMZ.Service.Validator
+namespace HMZ.Service.Validator.ModelValidators
 {
     public class RegisterValidator : IValidator<RegisterQuery>
     {
@@ -44,7 +44,7 @@ namespace HMZ.Service.Validator
             {
                 result.Add(new ValidationResult("Email already exists", new[] { nameof(entity.Email) }));
             }
-            return await System.Threading.Tasks.Task.FromResult(result);
+            return await Task.FromResult(result);
         }
 
     }
