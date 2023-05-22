@@ -9,6 +9,6 @@ namespace HMZ.Database.Entities
         public String? Week { get; set; }
         // Foreign Key
         public Guid? RoomId { get; set; }
-        public Room? Room { get; set; }
+        public ClassRoom? Room { get; set; }
     }
 }

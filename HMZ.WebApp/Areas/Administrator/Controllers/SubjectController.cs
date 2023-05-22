@@ -15,6 +15,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
     public class SubjectController : CRUDBaseControlle<ISubjectService,SubjectQuery,SubjectView,SubjectFilter>
     {
         private readonly IDepartmentService _departmentService;
+
         public SubjectController(ISubjectService service, IDepartmentService departmentService) : base(service)
         {
             _departmentService = departmentService;

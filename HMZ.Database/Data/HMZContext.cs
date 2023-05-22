@@ -31,7 +31,7 @@ namespace HMZ.Database.Data
 
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
-        public DbSet<Room> Rooms { get; set; }
+        public DbSet<ClassRoom> ClassRooms { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<TaskWork> Tasks { get; set; }

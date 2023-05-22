@@ -1,0 +1,109 @@
+﻿<div class="post d-flex flex-column-fluid" id="kt_post">
+    <!--begin::Container-->
+    <div id="kt_content_container" class="container">
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <!--begin::Search-->
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <h3>Thêm lớp học mới</h3>
+                    </div>
+                    <!--end::Search-->
+                </div>
+                <!--begin::Card title-->
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                    
+                    </a>
+                </div>
+                <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+               <div class="row">
+                    <div class="form-group">
+                        <label for="">Chọn mã lớp</label>
+                        <select name="roomId" class="form-control">
+                            <option value="">Chọn mã lớp</option>
+                            @if (ViewBag.Rooms != null && ViewBag.Rooms.Count > 0)
+                            {
+                                @foreach (var item in ViewBag.Rooms)
+                                {
+                                    <option value="@item.Id">@item.Code</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tiết</label>
+                        <input type="text" class="form-control" name="time">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ngày</label>
+                        <input type="text" class="form-control" name="day">
+                    </div>
+                    <div class="form-group mt-2">
+                        <button id="saveData" class="btn btn-primary">Hoàn thành</button>
+                    </div>
+               </div>
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+    </div>
+    <!--end::Container-->
+</div>
+
+@section Javascript {
+    <script>
+    $(document).ready(function () {
+        $('#saveData').click(async function () {
+            const data = {
+                name: $('input[name="time"]').val(),
+                name: $('input[name="day"]').val(),
+                roomId: $('select[name="roomId"]').val(),
+            };
+            console.log(data);
+            // ajax
+          await  $.ajax({
+                url: '/Administrator/Schedule/Create',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: 'Thêm mới khoa thành công',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                    window.location.href = '/Administrator/Schedule';
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: res.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        })
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        });
+       
+    });
+
+    </script>
+}

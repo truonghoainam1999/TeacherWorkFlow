@@ -8,6 +8,7 @@ namespace HMZ.Service.Services.DepartmentServices
 {
 	public interface IDepartmentService : IBaseService<DepartmentQuery, DepartmentView, DepartmentFilter>
 	{
-		Task<DataResult<DepartmentView>> GetAll();
-	}
+        Task<DataResult<DepartmentView>> GetAll();
+        Task<DataResult<DepartmentView>> GetByCodeAsync(string departmentCode);
+    }
 }

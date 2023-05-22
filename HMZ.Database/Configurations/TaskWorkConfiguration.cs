@@ -15,7 +15,7 @@ namespace HMZ.Database.Configurations
             // Foreign Key
             builder.HasOne(x => x.Subject).WithMany(x => x.Tasks).HasForeignKey(x => x.SubjectId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.User).WithMany(x => x.Tasks).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.Room).WithMany(x => x.Tasks).HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.ClassRoom).WithMany(x => x.Tasks).HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

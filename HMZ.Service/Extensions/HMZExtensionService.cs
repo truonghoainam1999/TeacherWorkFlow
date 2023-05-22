@@ -1,8 +1,10 @@
 ﻿using HMZ.Database.Data;
 using HMZ.DTOs.Models;
 using HMZ.DTOs.Queries;
+using HMZ.DTOs.Queries.Catalog;
 using HMZ.Service.MailServices;
 using HMZ.Service.Services;
+using HMZ.Service.Services.ClassRoomService;
 using HMZ.Service.Services.DashboardServices;
 using HMZ.Service.Services.DepartmentServices;
 using HMZ.Service.Services.FileServices;
@@ -39,6 +41,7 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IDashboardService), typeof(DashboardService));
             services.AddTransient(typeof(ISubjectService), typeof(SubjectService));
             services.AddTransient(typeof(IDepartmentService), typeof(DepartmentService));
+            services.AddTransient(typeof(IClassRoomService), typeof(ClassRoomService));
             
             
 
@@ -57,6 +60,8 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IValidator<PermissionQuery>), typeof(PermissionValidator));
             services.AddTransient(typeof(IValidator<RoleQuery>), typeof(RoleValidator));
             services.AddTransient(typeof(IValidator<SubjectQuery>), typeof(SubjectValidator));
+            services.AddTransient(typeof(IValidator<DepartmentQuery>), typeof(DepartmentValidator));
+            services.AddTransient(typeof(IValidator<ClassRoomQuery>), typeof(ClassRoomValidator));
 
 
 

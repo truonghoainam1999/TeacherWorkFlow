@@ -1,29 +1,29 @@
 ﻿using HMZ.DTOs.Fillters;
-using HMZ.DTOs.Queries;
+using HMZ.DTOs.Queries.Catalog;
 using HMZ.DTOs.Views;
-using HMZ.Service.Services.DepartmentServices;
+using HMZ.Service.Services.ClassRoomService;
 using HMZ.WebApp.Areas.Administrator.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMZ.WebApp.Areas.Administrator.Controllers
 {
-    public class DepartmentController : CRUDBaseControlle<IDepartmentService, DepartmentQuery, DepartmentView, DepartmentFilter>
+    public class ClassRoomController : CRUDBaseControlle<IClassRoomService, ClassRoomQuery, ClassRoomView, ClassRoomFilter>
     {
-        public DepartmentController(IDepartmentService service) : base(service)
+        public ClassRoomController(IClassRoomService service) : base(service)
         {
         }
+
         public IActionResult Index()
         {
             return View();
         }
-
         public async Task<IActionResult> Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] DepartmentQuery query)
+        public async Task<IActionResult> Update([FromBody] ClassRoomQuery query)
         {
             return await base.Update(query);
         }
