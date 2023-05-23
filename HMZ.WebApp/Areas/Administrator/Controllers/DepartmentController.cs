@@ -16,5 +16,9 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         {
             return View();
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
