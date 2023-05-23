@@ -17,7 +17,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
         {
             _service = service;
         }
-        #region CRUD
+        #region CRUD Base
         //  POST: Base
         [HttpPost]
         public async Task<IActionResult> GetAll([FromQuery] BaseQuery<T3> queryFilter)
@@ -28,11 +28,11 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var getMethod = _service.GetType().GetMethod("GetPageList");
             if (getMethod == null)
             {
-                return BadRequest("GetPageList method not found");
+                return  Json(new { Message = "GetPageList method not found", Success = false });
             }
             var data = await (Task<DataResult<T2>>)getMethod.Invoke(_service, new object[] { queryFilter });
 
-            return data.Items == null ? BadRequest(data) : Ok(data);
+            return  Ok(data);
         }
         // POST: Base/Create
         [HttpPost]
@@ -43,15 +43,15 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
 				var method = _service.GetType().GetMethod("CreateAsync");
 				if (method == null)
 				{
-					return BadRequest("CreateAsync method not found");
+					return Json(new { Message = "CreateAsync method not found", Success = false });
 				}
 				var result = await (Task<DataResult<bool>>)method.Invoke(_service, new object[] { query });
-				return result.Entity ? Ok(result) : BadRequest(result);
+				return Ok(result);
 			}
             catch (Exception ex)
             {
 
-				return BadRequest(ex.Message) ;
+                return Json(new { Message = ex.Message, Success = false });
             }
             
         }
@@ -63,10 +63,10 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var method = _service.GetType().GetMethod("DeleteAsync");
             if (method == null)
             {
-                return BadRequest("DeleteAsync method not found");
+                return Json(new { Message = "DeleteAsync method not found", Success = false });
             }
             var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { id });
-            return result.Entity > 0  ? Ok(result) : BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -79,7 +79,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
                 return BadRequest("UpdateAsync method not found");
             }
             var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query });
-            return result.Entity > 0 ? Ok(result) : BadRequest(result);
+            return  Ok(result);
         }
 
         [HttpPost]
@@ -89,11 +89,11 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var method = _service.GetType().GetMethod("GetByIdAsync");
             if (method == null)
             {
-                return BadRequest("GetByIdAsync method not found");
+                return Json (new { Message = "GetByIdAsync method not found", Success = false });
             }
             var result = await (Task<DataResult<T2>>)method.Invoke(_service, new object[] { id });
 
-            return result.Entity == null ? BadRequest(result) : Ok(result);
+            return Ok(result);
         }
         [HttpPost]
         // POST: Base/GetByCodeAsync/5
@@ -102,11 +102,11 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var method = _service.GetType().GetMethod("GetByCodeAsync");
             if (method == null)
             {
-                return BadRequest("GetByIdAsync method not found");
+                return Json(new { Message = "GetByCodeAsync method not found", Success = false });
             }
             var result = await (Task<DataResult<T2>>)method.Invoke(_service, new object[] { code });
 
-            return result.Entity == null ? BadRequest(result) : Ok(result);
+            return  Ok(result);
         }
         #endregion
 

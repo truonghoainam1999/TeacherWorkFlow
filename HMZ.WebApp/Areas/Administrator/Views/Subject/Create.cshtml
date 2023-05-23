@@ -89,7 +89,7 @@
                     else {
                         Swal.fire({
                             title: 'Lỗi',
-                            text: res.message,
+                            text: res.errors.join(' \n'),
                             icon: 'error',
                             confirmButtonText: 'OK'
                         })
