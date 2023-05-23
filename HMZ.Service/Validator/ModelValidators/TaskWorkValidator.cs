@@ -24,21 +24,23 @@ namespace HMZ.Service.Validator.ModelValidators
             // check exist for add  
             if (isUpdate == false)
             {
-                var taskWork = await _taskWorkService.GetByCodeAsync(entity.Code);
-                if (taskWork.Entity != null)
-                {
-                    return new List<ValidationResult>(){
-                    new ValidationResult("TaskWork is exist", new[] { nameof(entity.Code) })
-                };
-                }
-            }
+                //var taskWork = await _taskWorkService.GetByIdAsync(entity.Code);
+                //if (taskWork.Entity != null)
+                //{
+                //    return new List<ValidationResult>()
+                //    {
+                //    new ValidationResult("TaskWork is exist", new[] { nameof(entity.Code) })
+                //    };
 
+                //}
+
+            };
             var result = new List<ValidationResult>(){
                 ValidatorCustom.IsRequired(nameof(entity.RoomId), entity.RoomId),
                 ValidatorCustom.IsRequired(nameof(entity.UserId), entity.UserId),
-                ValidatorCustom.IsRequired(nameof(entity.SubjectId), entity.SubjectId),
-            };
-            return result;
+                ValidatorCustom.IsRequired(nameof(entity.SubjectId), entity.SubjectId) };
+                return result;
         }
     }
 }
+
