@@ -9,7 +9,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <h3>Thêm lớp học mới</h3>
+                        <h3>Thêm công việc mới</h3>
                     </div>
                     <!--end::Search-->
                 </div>
@@ -17,7 +17,6 @@
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar">
                     
-                    </a>
                 </div>
                 <!--end::Card toolbar-->
             </div>
@@ -26,8 +25,34 @@
             <div class="card-body pt-0">
                <div class="row">
                     <div class="form-group">
-                        <label for="">Chọn mã lớp</label>
+                        <label for="">Chọn mã môn học</label>
                         <select name="roomId" class="form-control">
+                            <option value="">Chọn mã môn học</option>
+                            @if (ViewBag.Subjects != null && ViewBag.Subjects.Count > 0)
+                            {
+                                @foreach (var item in ViewBag.Subjects)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chọn mã giảng viên</label>
+                        <select name="userId" class="form-control">
+                            <option value="">Chọn mã giảng viên</option>
+                            @if (ViewBag.Users != null && ViewBag.Users.Count > 0)
+                            {
+                                @foreach (var item in ViewBag.Users)
+                                {
+                                    <option value="@item.Id">@item.Code</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chọn mã lớp</label>
+                        <select name="subjectId" class="form-control">
                             <option value="">Chọn mã lớp</option>
                             @if (ViewBag.Rooms != null && ViewBag.Rooms.Count > 0)
                             {
@@ -37,18 +62,6 @@
                                 }
                             }
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Tiết</label>
-                        <input type="text" class="form-control" name="time">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Ngày</label>
-                        <input type="text" class="form-control" name="day">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Tuần</label>
-                        <input type="text" class="form-control" name="week">
                     </div>
                     <div class="form-group mt-2">
                         <button id="saveData" class="btn btn-primary">Hoàn thành</button>
@@ -67,15 +80,14 @@
     $(document).ready(function () {
         $('#saveData').click(async function () {
             const data = {
-                time: $('input[name="time"]').val(),
-                date: $('input[name="day"]').val(),
-                week: $('input[name="week"]').val(),
                 roomId: $('select[name="roomId"]').val(),
+                userId: $('select[name="userId"]').val(),
+                subjectId: $('select[name="subjectId"]').val(),
             };
             console.log(data);
             // ajax
           await  $.ajax({
-                url: '/Administrator/Schedule/Create',
+                url: '/Administrator/TaskWork/Create',
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
@@ -84,12 +96,12 @@
                     if (res.success) {
                         Swal.fire({
                             title: 'Thành công',
-                            text: 'Thêm mới khoa thành công',
+                            text: 'Thêm mới công việc thành công',
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                    window.location.href = '/Administrator/Schedule';
+                                    window.location.href = '/Administrator/TaskWork';
                             }
                         })
                     }

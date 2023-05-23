@@ -171,5 +171,25 @@ namespace HMZ.Service.Services.SubjectServices
             result.Entity = await _unitOfWork.SaveChangesAsync();
             return result;
         }
+
+        public async Task<DataResult<SubjectView>> GetAll()
+        {
+            var subject = await _unitOfWork.GetRepository<Subject>().AsQueryable()
+                      .Select(x => new SubjectView()
+                      {
+                          Id = x.Id,
+                          Name = x.Name,
+                          Description = x.Description,
+                          DepartmentId = x.DepartmentId.ToString(),
+                          DepartmentName = x.Department.Name,
+                          CreatedBy = x.CreatedBy,
+                          CreatedAt = x.CreatedAt,
+                          UpdatedAt = x.UpdatedAt,
+                          IsActive = x.IsActive,
+                      }).ToListAsync();
+            var response = new DataResult<SubjectView>();
+            response.Items = subject;
+            return response;
+        }
     }
 }

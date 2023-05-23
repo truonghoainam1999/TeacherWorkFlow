@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMZ.Database.Migrations
 {
     [DbContext(typeof(HMZContext))]
-    [Migration("20230516114257_AddTable")]
-    partial class AddTable
+    [Migration("20230523100750_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,41 @@ namespace HMZ.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HMZ.Database.Entities.ClassRoom", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClassRooms");
+                });
 
             modelBuilder.Entity("HMZ.Database.Entities.Department", b =>
                 {
@@ -178,45 +213,6 @@ namespace HMZ.Database.Migrations
                     b.ToTable("RolePermissions");
                 });
 
-            modelBuilder.Entity("HMZ.Database.Entities.Room", b =>
-                {
-                    b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rooms");
-                });
-
             modelBuilder.Entity("HMZ.Database.Entities.Schedule", b =>
                 {
                     b.Property<Guid?>("Id")
@@ -358,7 +354,7 @@ namespace HMZ.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("TaskWorks");
                 });
 
             modelBuilder.Entity("HMZ.Database.Entities.User", b =>
@@ -382,6 +378,9 @@ namespace HMZ.Database.Migrations
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -439,6 +438,8 @@ namespace HMZ.Database.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -589,7 +590,7 @@ namespace HMZ.Database.Migrations
 
             modelBuilder.Entity("HMZ.Database.Entities.Schedule", b =>
                 {
-                    b.HasOne("HMZ.Database.Entities.Room", "Room")
+                    b.HasOne("HMZ.Database.Entities.ClassRoom", "Room")
                         .WithMany("Schedules")
                         .HasForeignKey("RoomId");
 
@@ -611,7 +612,7 @@ namespace HMZ.Database.Migrations
                         .WithMany("Tasks")
                         .HasForeignKey("DepartmentId");
 
-                    b.HasOne("HMZ.Database.Entities.Room", "Room")
+                    b.HasOne("HMZ.Database.Entities.ClassRoom", "ClassRoom")
                         .WithMany("Tasks")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -626,11 +627,18 @@ namespace HMZ.Database.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Room");
+                    b.Navigation("ClassRoom");
 
                     b.Navigation("Subject");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HMZ.Database.Entities.User", b =>
+                {
+                    b.HasOne("HMZ.Database.Entities.Department", null)
+                        .WithMany("Users")
+                        .HasForeignKey("DepartmentId");
                 });
 
             modelBuilder.Entity("HMZ.Database.Entities.UserRole", b =>
@@ -696,11 +704,20 @@ namespace HMZ.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HMZ.Database.Entities.ClassRoom", b =>
+                {
+                    b.Navigation("Schedules");
+
+                    b.Navigation("Tasks");
+                });
+
             modelBuilder.Entity("HMZ.Database.Entities.Department", b =>
                 {
                     b.Navigation("Subjects");
 
                     b.Navigation("Tasks");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("HMZ.Database.Entities.Permission", b =>
@@ -713,13 +730,6 @@ namespace HMZ.Database.Migrations
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("HMZ.Database.Entities.Room", b =>
-                {
-                    b.Navigation("Schedules");
-
-                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("HMZ.Database.Entities.Subject", b =>

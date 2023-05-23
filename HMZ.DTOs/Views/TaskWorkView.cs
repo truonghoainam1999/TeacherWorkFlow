@@ -10,8 +10,8 @@ namespace HMZ.DTOs.Views
 {
     public class TaskWorkView : BaseEntity
     {
-        public Guid? RoomId { get; set; }
-        public Guid? UserId { get; set; }
-        public Guid? SubjectId { get; set; }
+        public String? RoomId { get; set; }
+        public String? UserId { get; set; }
+        public String? SubjectId { get; set; }
     }
 }

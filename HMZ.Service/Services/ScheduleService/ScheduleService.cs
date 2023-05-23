@@ -1,5 +1,6 @@
 ﻿using HMZ.Database.Entities;
 using HMZ.DTOs.Fillters;
+using HMZ.DTOs.Queries;
 using HMZ.DTOs.Queries.Base;
 using HMZ.DTOs.Queries.Catalog;
 using HMZ.DTOs.Views;
@@ -10,6 +11,7 @@ using HMZ.Service.Services.BaseService;
 using HMZ.Service.Validator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace HMZ.Service.Services.ScheduleService
@@ -18,8 +20,9 @@ namespace HMZ.Service.Services.ScheduleService
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ScheduleService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ScheduleService(IUnitOfWork unitOfWork, IServiceProvider serviceProvider) : base(unitOfWork)
         {
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<DataResult<bool>> CreateAsync(ScheduleQuery entity)
@@ -36,14 +39,14 @@ namespace HMZ.Service.Services.ScheduleService
                 result.Errors.AddRange(resultValidator.JoinError());
                 return result;
             }
-            var cshedule = new Schedule
+            var schdule = new Schedule
             {
                 Time = entity.Time,
                 Day = entity.Date,
                 Week = entity.Week,
-                RoomId  = Guid.Parse(entity.RoomId),
+                RoomId = Guid.Parse(entity.RoomId)
             };
-            await _unitOfWork.GetRepository<Schedule>().Add(cshedule);
+            await _unitOfWork.GetRepository<Schedule>().Add(schdule);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
             if (result.Entity == false)
             {

@@ -34,7 +34,7 @@ namespace HMZ.Database.Data
         public DbSet<ClassRoom> ClassRooms { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<TaskWork> Tasks { get; set; }
+        public DbSet<TaskWork> TaskWorks { get; set; }
         public DbSet<Department> Departments { get; set; }
 
 	}

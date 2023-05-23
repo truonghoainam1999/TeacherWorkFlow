@@ -11,10 +11,13 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
     public class ScheduleController : CRUDBaseControlle<IScheduleService, ScheduleQuery, ScheduleView, ScheduleFilter>
     {
         private readonly IClassRoomService _classRoomService;
+
         public ScheduleController(IScheduleService service, IClassRoomService classRoomService) : base(service)
         {
             _classRoomService = classRoomService;
         }
+
+
         public IActionResult Index()
         {
             return View();

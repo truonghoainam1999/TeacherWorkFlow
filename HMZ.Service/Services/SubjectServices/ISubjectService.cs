@@ -9,5 +9,6 @@ namespace HMZ.Service.Services.SubjectServices
 	public interface ISubjectService : IBaseService<SubjectQuery, SubjectView, SubjectFilter>
 	{
 		Task<DataResult<SubjectView>> GetByCodeAsync(string subjectCode);
-	}
+        Task<DataResult<SubjectView>> GetAll();
+    }
 }

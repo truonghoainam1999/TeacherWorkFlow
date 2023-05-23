@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using HMZ.Database.Entities;
 using HMZ.SDK.Extensions;
+using HMZ.DTOs.Queries;
 
 namespace HMZ.Service.Services.ClassRoomService
 {
@@ -37,12 +38,11 @@ namespace HMZ.Service.Services.ClassRoomService
                 result.Errors.AddRange(resultValidator.JoinError());
                 return result;
             }
-            var classRomm = new ClassRoom
+            var classRoom = new ClassRoom
             {
                 Name = entity.Name,
-
             };
-            await _unitOfWork.GetRepository<ClassRoom>().Add(classRomm);
+            await _unitOfWork.GetRepository<ClassRoom>().Add(classRoom);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
             if (result.Entity == false)
             {

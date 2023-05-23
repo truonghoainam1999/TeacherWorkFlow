@@ -16,7 +16,6 @@ namespace HMZ.Service.Validator.ModelValidators
         public async Task<List<ValidationResult>> ValidateAsync(ClassRoomQuery entity, string? userName = null, bool? isUpdate = false)
         {
 
-
             if (entity == null)
             {
                 return new List<ValidationResult>(){
@@ -30,7 +29,7 @@ namespace HMZ.Service.Validator.ModelValidators
                 if (classRoom.Entity != null)
                 {
                     return new List<ValidationResult>(){
-                    new ValidationResult("Department is exist", new[] { nameof(entity.Code) })
+                    new ValidationResult("ClassRoom is exist", new[] { nameof(entity.Code) })
                 };
                 }
             }

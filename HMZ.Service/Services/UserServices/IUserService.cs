@@ -16,5 +16,6 @@ namespace HMZ.Service.Services.UserServices
         Task<DataResult<bool>> ForgotPassword(string email, string host);
         Task<DataResult<bool>> ResetPassword(UpdatePasswordQuery entity);
         Task<DataResult<bool>> LockUser(string username, bool isLock);
+        Task<DataResult<UserView>> GetAll();
     }
 }

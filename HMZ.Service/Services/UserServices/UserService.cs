@@ -13,6 +13,7 @@ using HMZ.Service.Services.BaseService;
 using HMZ.Service.Services.TokenServices;
 using HMZ.Service.Validator;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 namespace HMZ.Service.Services.UserServices
 {
@@ -515,5 +516,25 @@ namespace HMZ.Service.Services.UserServices
             return response;
         }
 
+        public async Task<DataResult<UserView>> GetAll()
+        {
+            var users = await _unitOfWork.GetRepository<User>().AsQueryable()
+                      .Select(x => new UserView()
+                      {
+                          Id = x.Id,
+                          Username = x.UserName,
+                          FirstName = x.FirstName,
+                          LastName = x.LastName,
+                          Email = x.Email,
+                          DateOfBirth = x.DateOfBirth,
+                          CreatedBy = x.CreatedBy,
+                          CreatedAt = x.CreatedAt,
+                          UpdatedAt = x.UpdatedAt,
+                          IsActive = x.IsActive,
+                      }).ToListAsync();
+            var response = new DataResult<UserView>();
+            response.Items = users;
+            return response;
+        }
     }
 }

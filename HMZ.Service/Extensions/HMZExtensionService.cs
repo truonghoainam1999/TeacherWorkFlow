@@ -10,7 +10,9 @@ using HMZ.Service.Services.DepartmentServices;
 using HMZ.Service.Services.FileServices;
 using HMZ.Service.Services.PermissionServices;
 using HMZ.Service.Services.RoleServices;
+using HMZ.Service.Services.ScheduleService;
 using HMZ.Service.Services.SubjectServices;
+using HMZ.Service.Services.TaskWorkServices;
 using HMZ.Service.Services.TokenServices;
 using HMZ.Service.Services.UserServices;
 using HMZ.Service.Validator;
@@ -40,8 +42,10 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(IDashboardService), typeof(DashboardService));
             services.AddTransient(typeof(ISubjectService), typeof(SubjectService));
+            services.AddTransient(typeof(IScheduleService), typeof(ScheduleService));
             services.AddTransient(typeof(IDepartmentService), typeof(DepartmentService));
             services.AddTransient(typeof(IClassRoomService), typeof(ClassRoomService));
+            services.AddTransient(typeof(ITaskWorkService), typeof(TaskWorkService));
             
             
 
@@ -62,6 +66,8 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IValidator<SubjectQuery>), typeof(SubjectValidator));
             services.AddTransient(typeof(IValidator<DepartmentQuery>), typeof(DepartmentValidator));
             services.AddTransient(typeof(IValidator<ClassRoomQuery>), typeof(ClassRoomValidator));
+            services.AddTransient(typeof(IValidator<ScheduleQuery>), typeof(ScheduleValidator));
+            services.AddTransient(typeof(IValidator<TaskWorkQuery>), typeof(TaskWorkValidator));
 
 
 
