@@ -70,15 +70,18 @@
                                     </th>
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
-                                        style="width: 125px;">Mã môn học</th>
+                                        style="width: 125px;">Code</th>
+                                    <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
+                                        rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
+                                        style="width: 125px;">Tên môn học</th>
 
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
-                                        style="width: 125px;">Mã giảng viên</th>
+                                        style="width: 125px;">Tên giảng viên</th>
 
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
-                                        style="width: 125px;">Mã phòng</th>
+                                        style="width: 125px;">Tên phòng</th>
 
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1"
@@ -144,13 +147,15 @@
                     <!--end::Checkbox-->
 
                     <td>${item.code}</td>
-                    <td>${item.name}</td>
+                    <td>${item.subjectName}</td>
+                    <td>${item.username}</td>
+                    <td>${item.roomName}</td>
                     <td>${item.createdAt}</td>
 
                     <!--begin::Action=-->
                             <td>
                             <div class="d-flex justify-content-end flex-shrink-0">
-                                <a href="/Administrator/TaskWord/Update/${item.code}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"></a>
+                                <a href="/Administrator/TaskWord/Update/${item.id}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"></a>
                                     <!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
                                     <span class="svg-icon svg-icon-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -160,7 +165,7 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                 </a>
-                                <a href="/Administrator/TaskWord/Delete/${item.id}" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                <a href="" onclick='removeClass('${item.id}')' title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                     <!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->
                                     <span class="svg-icon svg-icon-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
