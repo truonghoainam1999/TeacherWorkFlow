@@ -45,7 +45,7 @@ namespace HMZ.Service.Services.TaskWorkServices
 				
 			};
             await _unitOfWork.GetRepository<TaskWork>().Add(taskWork);
-            result.Entity =  _unitOfWork.SaveChanges() > 0;
+            result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
             if (result.Entity == false)
             {
                 result.Errors.Add("Error while saving");
@@ -77,6 +77,7 @@ namespace HMZ.Service.Services.TaskWorkServices
                           RoomId = x.RoomId.ToString(),
                           UserId = x.UserId.ToString(),
                           SubjectId = x.SubjectId.ToString(),
+                         
                           CreatedBy = x.CreatedBy,
                           CreatedAt = x.CreatedAt,
                           UpdatedAt = x.UpdatedAt,

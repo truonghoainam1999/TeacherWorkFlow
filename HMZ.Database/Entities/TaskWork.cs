@@ -8,8 +8,8 @@ namespace HMZ.Database.Entities
         public Guid? UserId { get; set; }
         public Guid? SubjectId { get; set; }
 
-        public ClassRoom? ClassRoom { get; set; }
-        public User? User { get; set; }
-        public Subject? Subject { get; set; }
+        public virtual ClassRoom? ClassRoom { get; set; }
+        public virtual User? User { get; set; }
+        public virtual Subject? Subject { get; set; }
     }
 }
