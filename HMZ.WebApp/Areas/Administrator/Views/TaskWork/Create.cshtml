@@ -45,7 +45,7 @@
                             {
                                 @foreach (var item in ViewBag.Users)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Username</option>
                                 }
                             }
                         </select>
@@ -58,7 +58,7 @@
                             {
                                 @foreach (var item in ViewBag.Rooms)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -86,7 +86,7 @@
             };
             console.log(data);
             // ajax
-          await  $.ajax({
+          await $.ajax({
                 url: '/Administrator/TaskWork/Create',
                 type: 'POST',
                 data: JSON.stringify(data),
@@ -108,7 +108,7 @@
                     else {
                         Swal.fire({
                             title: 'Lỗi',
-                            text: res.message,
+                            text: res.errors.join('<br/>'),
                             icon: 'error',
                             confirmButtonText: 'OK'
                         })
@@ -121,6 +121,5 @@
         });
        
     });
-
     </script>
 }

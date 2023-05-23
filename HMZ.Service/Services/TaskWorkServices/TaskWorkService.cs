@@ -42,9 +42,10 @@ namespace HMZ.Service.Services.TaskWorkServices
                 RoomId =  Guid.Parse(entity.RoomId),
                 UserId = Guid.Parse(entity.UserId),
                 SubjectId = Guid.Parse(entity.SubjectId),
-            };
+				
+			};
             await _unitOfWork.GetRepository<TaskWork>().Add(taskWork);
-            result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
+            result.Entity =  _unitOfWork.SaveChanges() > 0;
             if (result.Entity == false)
             {
                 result.Errors.Add("Error while saving");

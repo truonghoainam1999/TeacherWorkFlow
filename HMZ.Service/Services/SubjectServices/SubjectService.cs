@@ -177,6 +177,7 @@ namespace HMZ.Service.Services.SubjectServices
         public async Task<DataResult<SubjectView>> GetAll()
         {
             var subject = await _unitOfWork.GetRepository<Subject>().AsQueryable()
+                      .Include(x=> x.Department)
                       .Select(x => new SubjectView()
                       {
                           Id = x.Id,

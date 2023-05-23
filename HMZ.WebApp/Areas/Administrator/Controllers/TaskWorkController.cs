@@ -32,36 +32,13 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         public async Task<IActionResult> Create()
         {
            var classRooms = await _classRoomService.GetAll();
-           // var users = await _userService.GetAll();
-           // var subject = await _subjectService.GetAll();
+            var users = await _userService.GetAll();
+            var subject = await _subjectService.GetAll();
+
             ViewBag.Rooms = classRooms.Items;
-           // ViewBag.Users = users.Items;
-           // ViewBag.Subjects = subject.Items;
+            ViewBag.Users = users.Items;
+            ViewBag.Subjects = subject.Items;
             return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] TaskWorkQuery query)
-        {
-            return await base.Update(query);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] string id)
-        {
-            return await base.Delete(id);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetById(string id)
-        {
-            return await base.GetById(id);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetByCode(string code)
-        {
-            return await base.GetByCode(code);
         }
     }
 }
