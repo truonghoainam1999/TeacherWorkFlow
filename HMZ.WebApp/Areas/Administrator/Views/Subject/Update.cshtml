@@ -1,0 +1,129 @@
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <!--begin::Container-->
+    <div id="kt_content_container" class="container">
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <!--begin::Search-->
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <h3>Thêm mới bộ môn</h3>
+                    </div>
+                    <!--end::Search-->
+                </div>
+                <!--begin::Card title-->
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+
+                    </a>
+                </div>
+                <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="">Mã bộ môn</label>
+                        <input type="text" disabled class="form-control" name="code">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tên bộ môn</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mô tả ngắn</label>
+                        <textarea name="description" class="form-control" id="" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chọn khoa</label>
+                        <select name="department" class="form-control">
+                            <option value="">Chọn khoa</option>
+                            @if (ViewBag.Departments != null && ViewBag.Departments.Count > 0)
+                            {
+                                @foreach (var item in ViewBag.Departments)
+                                {
+                                            <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group mt-2">
+                        <button id="saveData" class="btn btn-primary">Hoàn thành</button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+    </div>
+    <!--end::Container-->
+</div>
+
+@section Javascript {
+                    <script>
+
+                        $(document).ready(function() {
+                            const id = window.location.pathname.split('/')[4];
+                            console.log(id);
+                            loadData(id);
+                            $('#saveData').click(function() {
+                               saveData(id);
+                            })
+                        })
+
+
+                        // Save data
+                        function saveData(id) {
+                            const name = $('input[name="name"]').val();
+                            const description = $('textarea[name="description"]').val();
+                            const department = $('select[name="department"]').val();
+
+                            const data = {
+                                id: id,
+                                name: name,
+                                description: description,
+                                department: department
+                            }
+                            $.ajax({
+                                url: '/Administration/Department/Update',
+                                type: 'POST',
+                                data: JSON.stringify(id),
+                                contentType: 'application/json',
+                                success: function(res) {
+                                    if (res.success) 
+                                    {
+                                        //toastr.success(res.message);
+                                        setTimeout(() => {
+                                            window.location.href = '/Administration/Department';
+                                        }, 1000);
+                                    } 
+                                    else 
+                                    {
+                                        toastr.error(res.message);
+                                    }
+                                }
+                            })
+                        }
+                        // Load data
+                        function loadData(id) {
+                            $.ajax({
+                                url: '/Administrator/Department/GetById/'+id,
+                                type: 'POST',
+                                contentType: 'application/json',
+                                success: function(res) {
+                                    console.log(res);
+                                    if (res.success) {
+                                        $('input[name="name"]').val(res.entity.name);
+                                        $('textarea[name="description"]').val(res.entity.description);
+                                        $('select[name="department"]').val(res.entity.department);
+                                    } else {
+                                        toastr.error(res.errors.join('<br/>'));
+                                    }
+                                }
+                            })
+                        }
+                    </script>
+}

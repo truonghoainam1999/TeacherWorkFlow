@@ -31,12 +31,12 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var classRooms = await _classRoomService.GetAll();
-            var users = await _userService.GetAll();
-            var subject = await _subjectService.GetAll();
+           var classRooms = await _classRoomService.GetAll();
+           // var users = await _userService.GetAll();
+           // var subject = await _subjectService.GetAll();
             ViewBag.Rooms = classRooms.Items;
-            ViewBag.Users = users.Items;
-            ViewBag.Subjects = subject.Items;
+           // ViewBag.Users = users.Items;
+           // ViewBag.Subjects = subject.Items;
             return View();
         }
 

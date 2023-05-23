@@ -12,7 +12,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
     // T1: Query
     // T2: View
     // T3: Filter
-    public class SubjectController : CRUDBaseControlle<ISubjectService,SubjectQuery,SubjectView,SubjectFilter>
+    public class SubjectController : CRUDBaseControlle<ISubjectService, SubjectQuery, SubjectView, SubjectFilter>
     {
         private readonly IDepartmentService _departmentService;
 
@@ -25,11 +25,17 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
             return View();
         }
 
-		public async Task<IActionResult> Create()
-		{
+        public async Task<IActionResult> Create()
+        {
             var departments = await _departmentService.GetAll();
             ViewBag.Departments = departments.Items;
-			return View();
-		}
-	}
+            return View();
+        }
+        public async Task<IActionResult> Update()
+        {
+            var departments = await _departmentService.GetAll();
+            ViewBag.Departments = departments.Items;
+            return View();
+        }
+    }
 }
