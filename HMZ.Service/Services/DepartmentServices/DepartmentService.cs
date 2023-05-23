@@ -111,7 +111,7 @@ namespace HMZ.Service.Services.DepartmentServices
             var department = await _unitOfWork.GetRepository<Department>().GetByIdAsync(Guid.Parse(id));
             if (department == null)
             {
-                result.Errors.Add("Subject not found");
+                result.Errors.Add("Department not found");
                 return result;
             }
             result.Entity = new DepartmentView

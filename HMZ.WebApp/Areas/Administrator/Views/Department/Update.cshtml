@@ -26,6 +26,10 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="form-group">
+                        <label for="">Mã bộ môn</label>
+                        <input type="text" disabled class="form-control" name="code">
+                    </div>
+                    <div class="form-group">
                         <label for="">Tên bộ môn</label>
                         <input type="text" class="form-control" name="name">
                     </div>
@@ -47,35 +51,65 @@
 </div>
 
 @section Javascript {
-    <script>
-        $(document).ready(function () {
-            $('#saveData').click(async function () {
-                const data = {
-                    name: $('input[name="name"]').val(),
-                    phone: $('input[name="phone"]').val(),
-                };
-                console.log(data);
-                // ajax
-                await $.ajax({
-                    url: '/Administrator/Department/Update',
+        <script>
+            $(document).ready(function() {
+                const id = window.location.pathname.split('/')[4];
+                console.log(id);
+                getData(id);
+                $('#saveData').click(async function() {
+                    const data = {
+                        id: id,
+                        name: $('input[name="name"]').val(),
+                        phone: $('input[name="phone"]').val(),
+                    };
+                    console.log(data);
+                    // ajax
+                    await $.ajax({
+                        url: '/Administrator/Department/Update',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function(res) {
+                            console.log(res);
+                            if (res.success) {
+                                Swal.fire({
+                                    title: 'Cập nhập công',
+                                    text: 'Cập nhập thành công',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href =
+                                            '/Administrator/Department';
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: 'Lỗi',
+                                    text: res.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                })
+                            }
+                        },
+                        error: function(err) {
+                            console.log(err);
+                        }
+                    })
+                });
+            });
+
+            function getData(id) {
+                $.ajax({
+                    url: '/Administrator/Department/GetById/' + id + '',
                     type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function (res) {
+                    success: function(res) {
                         console.log(res);
                         if (res.success) {
-                            Swal.fire({
-                                title: 'Cập nhập công',
-                                text: 'Cập nhập thành công',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/Administrator/Department';
-                                }
-                            })
-                        }
-                        else {
+                            $('input[name="code"]').val(res.entity.code);
+                            $('input[name="name"]').val(res.entity.name);
+                            $('input[name="phone"]').val(res.entity.phone);
+                        } else {
                             Swal.fire({
                                 title: 'Lỗi',
                                 text: res.message,
@@ -84,13 +118,10 @@
                             })
                         }
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.log(err);
                     }
                 })
-            });
-
-        });
-
-    </script>
+            }
+        </script>
 }
