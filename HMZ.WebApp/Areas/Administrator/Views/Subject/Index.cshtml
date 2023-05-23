@@ -163,7 +163,7 @@
                                             </span>
                                             <!--end::Svg Icon-->
                                         </a>
-                                            <a href="#" onclick="removeSubject(${item.id})" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                            <a href="#" onclick="removeSubject('${item.id}')" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                             <!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->
                                             <span class="svg-icon svg-icon-3">
                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -191,6 +191,7 @@
 
     // remove subject
     function removeSubject(id) {
+        console.log(id);
         Swal.fire({
             title: "Bạn có chắc chắn muốn xóa?",
             text: "Bạn sẽ không thể khôi phục lại dữ liệu!",
@@ -202,10 +203,10 @@
         }).then(function(result) {
             if (result.value) {
                 $.ajax({
-                    url: '/Administrator/Subjects/Delete',
+                    url: '/Administrator/Subject/Delete',
                     type: 'POST',
                     data: JSON.stringify(id),
-                    contentType: 'application/json;charset=utf-8',
+                    contentType: 'application/json',
                     success: function(result) {
                         if (result.success) {
                             Swal.fire({

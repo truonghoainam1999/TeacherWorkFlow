@@ -45,7 +45,7 @@
                             {
                                 @foreach (var item in ViewBag.Departments)
                                 {
-                                            <option value="@item.Id">@item.Name</option>
+                                                            <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -63,67 +63,65 @@
 </div>
 
 @section Javascript {
-                    <script>
+                            <script>
 
-                        $(document).ready(function() {
-                            const id = window.location.pathname.split('/')[4];
-                            console.log(id);
-                            loadData(id);
-                            $('#saveData').click(function() {
-                               saveData(id);
-                            })
-                        })
+                                $(document).ready(function() {
+                                    const id = window.location.pathname.split('/')[4];
+                                    console.log(id);
+                                    loadData(id);
+                                    $('#saveData').click(function() {
+                                       saveData(id);
+                                    })
+                                })
+                                // Save data
+                                function saveData(id) {
+                                    const name = $('input[name="name"]').val();
+                                    const description = $('textarea[name="description"]').val();
+                                    const departmentId = $('select[name="department"]').val();
 
-
-                        // Save data
-                        function saveData(id) {
-                            const name = $('input[name="name"]').val();
-                            const description = $('textarea[name="description"]').val();
-                            const department = $('select[name="department"]').val();
-
-                            const data = {
-                                id: id,
-                                name: name,
-                                description: description,
-                                department: department
-                            }
-                            $.ajax({
-                                url: '/Administration/Department/Update',
-                                type: 'POST',
-                                data: JSON.stringify(id),
-                                contentType: 'application/json',
-                                success: function(res) {
-                                    if (res.success) 
-                                    {
-                                        //toastr.success(res.message);
-                                        setTimeout(() => {
-                                            window.location.href = '/Administration/Department';
-                                        }, 1000);
-                                    } 
-                                    else 
-                                    {
-                                        toastr.error(res.message);
+                                    const data = {
+                                        id: id,
+                                        name: name,
+                                        description: description,
+                                        departmentId: departmentId
                                     }
+                                    $.ajax({
+                                        url: '/Administrator/Subject/Update',
+                                        type: 'POST',
+                                        data: JSON.stringify(data),
+                                        contentType: 'application/json',
+                                        success: function(res) {
+                                            if (res.success) 
+                                            {
+                                                toastr.success("Cập nhật thành công");
+                                                setTimeout(() => {
+                                                    window.location.href = '/Administrator/Subject';
+                                                }, 1000);
+                                            } 
+                                            else 
+                                            {
+                                                toastr.error(res.errors.join('<br/>'));
+                                            }
+                                        }
+                                    })
                                 }
-                            })
-                        }
-                        // Load data
-                        function loadData(id) {
-                            $.ajax({
-                                url: '/Administrator/Department/GetById/'+id,
-                                type: 'POST',
-                                contentType: 'application/json',
-                                success: function(res) {
-                                    console.log(res);
-                                    if (res.success) {
-                                        $('input[name="name"]').val(res.entity.name);
-                                        $('textarea[name="description"]').val(res.entity.description);
-                                        $('select[name="department"]').val(res.entity.department);
-                                    } else {
-                                        toastr.error(res.errors.join('<br/>'));
-                                    }
+                                // Load data
+                                function loadData(id) {
+                                    $.ajax({
+                                        url: '/Administrator/Subject/GetById/'+id,
+                                        type: 'POST',
+                                        success: function(res) {
+                                            console.log(res);
+                                            if (res.success) {
+                                                $('input[name="code"]').val(res.entity.code);
+                                                $('input[name="name"]').val(res.entity.name);
+                                                $('textarea[name="description"]').val(res.entity.description);
+                                                $('select[name="department"]').val(res.entity.department);
+                                            } else {
+                                                toastr.error(res.errors.join('<br/>'));
+                                            }
+                                        }
+                                    })
                                 }
-                            })
-                        }
-                    </script>
+                            </script>
 }
