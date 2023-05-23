@@ -8,6 +8,7 @@ using HMZ.Database.Entities;
 using HMZ.Database.Data;
 using HMZ.Database.Enums;
 using HMZ.Service.Enums;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace HMZ.Service.Extensions
 {
@@ -22,9 +23,14 @@ namespace HMZ.Service.Extensions
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequiredUniqueChars = 1;
                 opt.Password.RequireDigit = true;
-                //opt.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromMinutes(5);
+
+
+                opt.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromMinutes(5);
                 opt.Lockout.MaxFailedAccessAttempts = 5;
                 opt.Lockout.AllowedForNewUsers = true;
+                
+                opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+
             })
                  .AddRoles<Role>()
                  .AddRoleManager<RoleManager<Role>>()
@@ -37,8 +43,8 @@ namespace HMZ.Service.Extensions
             options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                /// options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                
             })
             .AddJwtBearer(options =>
             {
