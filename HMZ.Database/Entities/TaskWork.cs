@@ -8,6 +8,9 @@ namespace HMZ.Database.Entities
         public Guid? UserId { get; set; }
         public Guid? SubjectId { get; set; }
 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
         public virtual ClassRoom? ClassRoom { get; set; }
         public virtual User? User { get; set; }
         public virtual Subject? Subject { get; set; }

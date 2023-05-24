@@ -9,7 +9,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <h3>Thêm lớp học mới</h3>
+                        <h3>Cập nhật lịch làm việc</h3>
                     </div>
                     <!--end::Search-->
                 </div>
@@ -26,9 +26,9 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="form-group">
-                        <label for="">Chọn mã môn học</label>
-                        <select name="roomId" class="form-control">
-                            <option value="">Chọn mã môn học</option>
+                        <label for="">Chọn môn học</label>
+                        <select name="subjectId" class="form-control">
+                            <option value="">Chọn môn học</option>
                             @if (ViewBag.Subjects != null && ViewBag.Subjects.Count > 0)
                             {
                                 @foreach (var item in ViewBag.Subjects)
@@ -41,19 +41,19 @@
                     <div class="form-group">
                         <label for="">Chọn mã giảng viên</label>
                         <select name="userId" class="form-control">
-                            <option value="">Chọn mã giảng viên</option>
+                            <option value="">Chọn giảng viên</option>
                             @if (ViewBag.Users != null && ViewBag.Rooms.Count > 0)
                             {
                                 @foreach (var item in ViewBag.Users)
                                 {
-                                    <option value="@item.Id">@item.Name</option>
+                                    <option value="@item.Id">@item.Username</option>
                                 }
                             }
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Chọn mã lớp</label>
-                        <select name="subjectId" class="form-control">
+                        <select name="roomId" class="form-control">
                             <option value="">Chọn mã lớp</option>
                             @if (ViewBag.Rooms != null && ViewBag.Rooms.Count > 0)
                             {
@@ -63,6 +63,14 @@
                                 }
                             }
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ngày bắt đầu</label>
+                        <input type="date" class="form-control" name="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Thời hạn</label>
+                        <input type="date" class="form-control" name="endDate">
                     </div>
                     <div class="form-group mt-2">
                         <button id="saveData" class="btn btn-primary">Hoàn thành</button>
@@ -81,54 +89,48 @@
         $(document).ready(function () {
             const id = window.location.pathname.split('/')[4];
             console.log(id);
-            getData(id);
-            $('#saveData').click(async function () {
-                const data = {
-                    id: id,
-                    roomId: $('select[name="roomId"]').val(),
-                    userId: $('select[name="userId"]').val(),
-                    subjectId: $('select[name="subjectId"]').val(),
-                };
-                console.log(data);
-                // ajax
-                await $.ajax({
-                    url: '/Administrator/TaskWork/Update',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            Swal.fire({
-                                title: 'Cập nhập công',
-                                text: 'Cập nhập thành công',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href =
-                                        '/Administrator/TaskWork';
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'Lỗi',
-                                text: res.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            });
-        });
+            loadData(id);
+            $('#saveData').click(function () {
+                saveData(id);
+            })
+        })
+        // Save data
+        function saveData(id) {
+            const roomId = $('select[name="roomId"]').val();
+            const userId = $('select[name="userId"]').val();
+            const subjectId = $('select[name="subjectId"]').val();
+            const startDate = $('input[name="startDate"]').val();
+            const endtDate = $('input[name="endtDate"]').val();
 
-        function getData(id) {
+            const data = {
+                roomId: roomId,
+                userId: userId,
+                subjectId: subjectId,
+                startDate: startDate,
+                endDate: endtDate,
+            }
             $.ajax({
-                url: '/Administrator/TaskWork/GetById/' + id + '',
+                url: '/Administrator/TaskWork/Update/' + id + '',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.success) {
+                        toastr.success("Cập nhật thành công");
+                        setTimeout(() => {
+                            window.location.href = '/Administrator/TaskWork';
+                        }, 1000);
+                    }
+                    else {
+                        toastr.error(res.errors.join('<br/>'));
+                    }
+                }
+            })
+        }
+        // Load data
+        function loadData(id) {
+            $.ajax({
+                url: '/Administrator/TaskWork/GetById/' + id,
                 type: 'POST',
                 success: function (res) {
                     console.log(res);
@@ -136,20 +138,13 @@
                         $('select[name="roomId"]').val(res.entity.roomId);
                         $('select[name="userId"]').val(res.entity.userId);
                         $('select[name="subjectId"]').val(res.entity.subjectId);
+                        $('input[name="startDate"]').val(res.entity.startDate);
+                        $('input[name="endDate"]').val(res.entity.endDate);
                     } else {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: res.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
+                        toastr.error(res.errors.join('<br/>'));
                     }
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
         }
     </script>
- 
 }

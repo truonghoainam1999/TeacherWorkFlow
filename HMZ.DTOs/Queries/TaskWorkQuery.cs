@@ -9,6 +9,8 @@ namespace HMZ.DTOs.Queries.Catalog
 {
     public class TaskWorkQuery : BaseEntity
     {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public String? RoomId { get; set; }
         public String? UserId { get; set; }
         public String? SubjectId { get; set; }

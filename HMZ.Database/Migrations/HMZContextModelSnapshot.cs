@@ -320,11 +320,17 @@ namespace HMZ.Database.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<Guid?>("RoomId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uniqueidentifier");

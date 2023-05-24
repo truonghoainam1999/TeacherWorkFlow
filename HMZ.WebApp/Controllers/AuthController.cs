@@ -10,11 +10,13 @@ using HMZ.Service.Services.UserServices;
 using HMZ.WebApp.Areas.Administrator.Controllers.Base;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace HMZ.WebApp.Controllers
 {
+    [Authorize]
     public class AuthController : BaseController<IUserService>
     {
         public AuthController(IUserService service) : base(service)

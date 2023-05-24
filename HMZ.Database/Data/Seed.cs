@@ -121,6 +121,7 @@ namespace HMZ.Database.Data
             var users = new List<User>
             {
                 new User(){ UserName="admin", Email="admin@hmz.com",FirstName="Admin",LastName="Admin",DateOfBirth = new DateTime(01,01,1999)},
+                new User(){ UserName="Admin", Email="testgamil0069@gmail.com",FirstName="Admin",LastName="Boss",DateOfBirth = new DateTime(01,01,1999)},
                 new User(){ UserName="mod", Email="mod@hmz.com", FirstName="Mod",LastName="Mod",DateOfBirth = new DateTime(01,01,1999)},
                 new User(){ UserName="member", Email="user@hmz.com", FirstName="User",LastName="User",DateOfBirth = new DateTime(01,01,1999)}
             };

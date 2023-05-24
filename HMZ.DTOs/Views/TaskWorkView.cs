@@ -16,5 +16,7 @@ namespace HMZ.DTOs.Views
         public String? Username { get; set; }
         public String? SubjectId { get; set; }
         public String? SubjectName { get; set; }
+        public String? StartDate { get; set;}
+        public String? EndDate { get; set;}
     }
 }

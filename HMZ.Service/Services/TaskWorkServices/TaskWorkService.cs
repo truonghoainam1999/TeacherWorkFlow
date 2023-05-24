@@ -7,6 +7,7 @@ using HMZ.DTOs.Views;
 using HMZ.SDK.Extensions;
 using HMZ.Service.Extensions;
 using HMZ.Service.Helpers;
+using HMZ.Service.MailServices;
 using HMZ.Service.Services.BaseService;
 using HMZ.Service.Validator;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,12 @@ namespace HMZ.Service.Services.TaskWorkServices
     public class TaskWorkService : ServiceBase<IUnitOfWork>, ITaskWorkService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IMailService _mailService;
 
-        public TaskWorkService(IUnitOfWork unitOfWork, IServiceProvider serviceProvider) : base(unitOfWork)
+        public TaskWorkService(IUnitOfWork unitOfWork, IServiceProvider serviceProvider, IMailService mailService) : base(unitOfWork)
         {
             _serviceProvider = serviceProvider;
+            _mailService = mailService;
         }
 
         public async Task<DataResult<bool>> CreateAsync(TaskWorkQuery entity)
@@ -41,7 +44,8 @@ namespace HMZ.Service.Services.TaskWorkServices
             var taskWork = new TaskWork
             {
                 Id = Guid.NewGuid(),
-                
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
                 RoomId = Guid.Parse(entity.RoomId),
                 UserId = Guid.Parse(entity.UserId),
                 SubjectId = Guid.Parse(entity.SubjectId),
@@ -54,6 +58,23 @@ namespace HMZ.Service.Services.TaskWorkServices
                 result.Errors.Add("Error while saving");
                 return result;
             }
+
+            var mailRequest = new MailQuery
+            {
+                ToEmails = new List<string> { "dangcongvinh328@gmail.com" },
+                Subject = "Thông báo tạo mới TaskWork",
+                Body = "Đã có công việc mới mời bạn kiểm tra.",
+                Url = "",
+                Attachments = null,
+            };
+
+            var emailResult = await _mailService.SendEmailAsync(mailRequest);
+            if (!emailResult.Entity)
+            {
+                result.Errors.Add("Error send mail");
+                return result;
+            }
+
             return result;
         }
 
@@ -84,10 +105,12 @@ namespace HMZ.Service.Services.TaskWorkServices
                           RoomName = x.ClassRoom.Name,
                           Username = x.User.UserName,
                           SubjectName = x.Subject.Name,
+                          StartDate = x.StartDate.ToString("dd mmm yyyy"),
+                          EndDate = x.EndDate.ToString("dd mmm yyyy"),
                           RoomId = x.RoomId.ToString(),
                           UserId = x.UserId.ToString(),
                           SubjectId = x.SubjectId.ToString(),
-                         
+
                           CreatedBy = x.CreatedBy,
                           CreatedAt = x.CreatedAt,
                           UpdatedAt = x.UpdatedAt,
@@ -111,7 +134,7 @@ namespace HMZ.Service.Services.TaskWorkServices
             {
                 Id = taskWork.Id,
                 RoomId = taskWork.RoomId.ToString(),
-                UserId = taskWork.UserId.ToString(), 
+                UserId = taskWork.UserId.ToString(),
                 SubjectId = taskWork.SubjectId.ToString(),
 
             };
@@ -134,7 +157,8 @@ namespace HMZ.Service.Services.TaskWorkServices
                 RoomId = taskWork.RoomId.ToString(),
                 UserId = taskWork.UserId.ToString(),
                 SubjectId = taskWork.SubjectId.ToString(),
-
+                StartDate = taskWork.StartDate.ToString("dd MMM yyyy"),
+                EndDate = taskWork.EndDate.ToString("dd MMM yyyy"),
                 CreatedBy = taskWork.CreatedBy,
                 CreatedAt = taskWork.CreatedAt,
                 UpdatedAt = taskWork.UpdatedAt,
@@ -153,28 +177,69 @@ namespace HMZ.Service.Services.TaskWorkServices
                      .Take(query.PageSize.Value)
                      .Select(x => new TaskWorkView()
                      {
-						 Id = x.Id,
-						 Code = x.Code,
-						 RoomName = x.ClassRoom.Name,
-						 Username = x.User.UserName,
-						 SubjectName = x.Subject.Name,
-						 RoomId = x.RoomId.ToString(),
-						 UserId = x.UserId.ToString(),
-						 SubjectId = x.SubjectId.ToString(),
-
-						 CreatedBy = x.CreatedBy,
-						 CreatedAt = x.CreatedAt,
-						 UpdatedAt = x.UpdatedAt,
-						 IsActive = x.IsActive,
-					 })
+                         Id = x.Id,
+                         Code = x.Code,
+                         RoomName = x.ClassRoom.Name,
+                         Username = x.User.UserName,
+                         SubjectName = x.Subject.Name,
+                         RoomId = x.RoomId.ToString(),
+                         UserId = x.UserId.ToString(),
+                         SubjectId = x.SubjectId.ToString(),
+                         StartDate = x.StartDate.ToString("dd MMM yyyy"),
+                         EndDate = x.EndDate.ToString("dd MMM yyyy"),
+                         CreatedBy = x.CreatedBy,
+                         CreatedAt = x.CreatedAt,
+                         UpdatedAt = x.UpdatedAt,
+                         IsActive = x.IsActive,
+                     })
                      .ApplyFilter(query)
                      .OrderByColums(query.SortColums, true).ToListAsync();
 
             var response = new DataResult<TaskWorkView>();
             response.TotalRecords = await _unitOfWork.GetRepository<TaskWork>().AsQueryable().CountAsync();
             response.Items = taskWork;
+            await ExecuteDailyTask();
             return response;
         }
+
+        public async Task ExecuteDailyTask()
+        {
+            DateTime currentDate = DateTime.Today;
+            DateTime checkDate = currentDate.AddDays(+2);
+
+            var tasks = await _unitOfWork.GetRepository<TaskWork>()
+                .AsQueryable()
+                .Where(x => x.EndDate.Date == checkDate.Date || x.EndDate < currentDate)
+                .ToListAsync();
+
+            foreach (var task in tasks)
+            {
+                string subject;
+                string body;
+
+                if (task.EndDate.Date == checkDate.Date)
+                {
+                    subject = "Xin thông báo thời hạn công việc của bạn sắp đến hạn";
+                    body = $"Công việc mã {task.Code} sẽ hết hạn vào ngày {task.EndDate.ToString("dd MMM yyyy")}.";
+                }
+                else
+                {
+                    subject = "Công việc đã quá hạn";
+                    body = $"Công việc mã {task.Code} đã quá hạn.Vui lòng liên hệ hội đồng";
+                }
+
+                // Gửi email
+                MailQuery mailRequest = new MailQuery
+                {
+                    ToEmails = new List<string> { task.User.Email }, 
+                    Subject = subject,
+                    Body = body
+                };
+                await _mailService.SendEmailAsync(mailRequest);
+            }
+        }
+
+
 
         public async Task<DataResult<int>> UpdateAsync(TaskWorkQuery entity, string id)
         {
@@ -185,6 +250,7 @@ namespace HMZ.Service.Services.TaskWorkServices
                 result.Errors.Add("TaskWork not found");
                 return result;
             }
+
             // Validate
             using var scope = _serviceProvider.CreateScope();
             var validator = scope.ServiceProvider.GetRequiredService<IValidator<TaskWorkQuery>>();
@@ -196,13 +262,28 @@ namespace HMZ.Service.Services.TaskWorkServices
                 result.Errors.AddRange(resultValidator.JoinError());
                 return result;
             }
-            taskWork.RoomId = Guid.Parse(entity.RoomId);
-            taskWork.UserId = Guid.Parse(entity.UserId);
-            taskWork.SubjectId = Guid.Parse(entity.SubjectId);
 
-            _unitOfWork.GetRepository<TaskWork>().Update(taskWork);
-            result.Entity = await _unitOfWork.SaveChangesAsync();
+            try
+            {
+                taskWork.StartDate = entity.StartDate;
+                taskWork.EndDate = entity.EndDate;
+                taskWork.RoomId = Guid.Parse(entity.RoomId);
+                taskWork.UserId = Guid.Parse(entity.UserId);
+                taskWork.SubjectId = Guid.Parse(entity.SubjectId);
+
+                _unitOfWork.GetRepository<TaskWork>().Update(taskWork);
+                await _unitOfWork.SaveChangesAsync();
+
+                result.Entity = 1;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception and log the error
+                result.Errors.Add("Error while update: " + ex.Message);
+            }
+
             return result;
         }
+
     }
 }

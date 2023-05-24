@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMZ.Database.Migrations
 {
     [DbContext(typeof(HMZContext))]
-    [Migration("20230524054834_AddNewData")]
-    partial class AddNewData
+    [Migration("20230524113809_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -323,11 +323,17 @@ namespace HMZ.Database.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<Guid?>("RoomId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uniqueidentifier");

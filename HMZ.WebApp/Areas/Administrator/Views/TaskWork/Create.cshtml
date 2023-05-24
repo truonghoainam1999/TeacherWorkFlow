@@ -25,9 +25,9 @@
             <div class="card-body pt-0">
                <div class="row">
                     <div class="form-group">
-                        <label for="">Chọn mã môn học</label>
+                        <label for="">Chọn môn học</label>
                         <select name="subjectId" class="form-control">
-                            <option value="">Chọn mã môn học</option>
+                            <option value="">Chọn môn học</option>
                             @if (ViewBag.Subjects != null && ViewBag.Subjects.Count > 0)
                             {
                                 @foreach (var item in ViewBag.Subjects)
@@ -38,9 +38,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="">Chọn mã giảng viên</label>
+                        <label for="">Chọn giảng viên</label>
                         <select name="userId" class="form-control">
-                            <option value="">Chọn mã giảng viên</option>
+                            <option value="">Chọn giảng viên</option>
                             @if (ViewBag.Users != null && ViewBag.Users.Count > 0)
                             {
                                 @foreach (var item in ViewBag.Users)
@@ -63,6 +63,14 @@
                             }
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="">Ngày bắt đầu</label>
+                        <input type="date" class="form-control" name="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Thời hạn</label>
+                        <input type="date" class="form-control " name="endDate">
+                    </div>
                     <div class="form-group mt-2">
                         <button id="saveData" class="btn btn-primary">Hoàn thành</button>
                     </div>
@@ -83,6 +91,8 @@
                     roomId: $('select[name="roomId"]').val(),
                     userId: $('select[name="userId"]').val(),
                     subjectId: $('select[name="subjectId"]').val(),
+                    startDate: $('input[name="startDate"]').val(),
+                    endDate: $('input[name="endDate"]').val(),
                 };
                 console.log(data);
                 // ajax
