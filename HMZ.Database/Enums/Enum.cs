@@ -4,6 +4,7 @@
     {
         Member,
         Mod,
-        Admin
+        Admin,
+        Author
     }
 }

@@ -13,6 +13,7 @@ using HMZ.Service.Validator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace HMZ.Service.Services.TaskWorkServices
 {
@@ -205,37 +206,44 @@ namespace HMZ.Service.Services.TaskWorkServices
         public async Task ExecuteDailyTask()
         {
             DateTime currentDate = DateTime.Today;
-            DateTime checkDate = currentDate.AddDays(+2);
+            DateTime checkDate = currentDate.AddDays(-2);
 
             var tasks = await _unitOfWork.GetRepository<TaskWork>()
-                .AsQueryable()
-                .Where(x => x.EndDate.Date == checkDate.Date || x.EndDate < currentDate)
-                .ToListAsync();
+                .AsQueryable().Where(x => x.StartDate != null && x.EndDate != null).ToListAsync();
 
             foreach (var task in tasks)
             {
-                string subject;
-                string body;
+                string subject = "";
+                string body = "";
 
                 if (task.EndDate.Date == checkDate.Date)
                 {
                     subject = "Xin thông báo thời hạn công việc của bạn sắp đến hạn";
                     body = $"Công việc mã {task.Code} sẽ hết hạn vào ngày {task.EndDate.ToString("dd MMM yyyy")}.";
                 }
-                else
+                else if(task.EndDate.Date >= currentDate.Date)
                 {
                     subject = "Công việc đã quá hạn";
                     body = $"Công việc mã {task.Code} đã quá hạn.Vui lòng liên hệ hội đồng";
                 }
 
                 // Gửi email
-                MailQuery mailRequest = new MailQuery
+                if (task.UserId != null)
                 {
-                    ToEmails = new List<string> { task.User.Email }, 
-                    Subject = subject,
-                    Body = body
-                };
-                await _mailService.SendEmailAsync(mailRequest);
+                    Guid userId = task.UserId.Value;
+                    var user = await _unitOfWork.GetRepository<User>().AsQueryable().FirstOrDefaultAsync(u => u.Id == userId);
+                    if (user != null)
+                    {
+                        var userMail = user.Email;
+                        MailQuery mailRequest = new MailQuery
+                        {
+                            ToEmails = new List<string> { userMail },
+                            Subject = subject,
+                            Body = body
+                        };
+                        await _mailService.SendEmailAsync(mailRequest);
+                    }
+                }
             }
         }
 
