@@ -2,6 +2,7 @@
 using HMZ.DTOs.Queries.Base;
 using HMZ.Service.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
 {
@@ -22,18 +23,22 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
         [HttpPost]
         public async Task<IActionResult> GetAll([FromQuery] BaseQuery<T3> queryFilter)
         {
-			queryFilter.PageNumber = queryFilter.PageNumber > 0 ? queryFilter.PageNumber : 1;
-			queryFilter.PageSize = queryFilter.PageSize > 0 ? queryFilter.PageSize : 10;
+            queryFilter.PageNumber = queryFilter.PageNumber > 0 ? queryFilter.PageNumber : 1;
+            queryFilter.PageSize = queryFilter.PageSize > 0 ? queryFilter.PageSize : 10;
 
             var getMethod = _service.GetType().GetMethod("GetPageList");
             if (getMethod == null)
             {
-                return  Json(new { Message = "GetPageList method not found", Success = false });
+                return Json(new { Message = "GetPageList method not found", Success = false });
             }
+
             var data = await (Task<DataResult<T2>>)getMethod.Invoke(_service, new object[] { queryFilter });
 
-            return  Ok(data);
+            queryFilter.TotalItems = data.TotalRecords.Value;
+                
+            return Ok(data);
         }
+
         // POST: Base/Create
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] T1 query)
