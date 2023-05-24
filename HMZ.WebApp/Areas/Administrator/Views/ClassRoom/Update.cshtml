@@ -55,7 +55,7 @@
             console.log(data);
             // ajax
             await $.ajax({
-                url: '/Administrator/ClassRoom/Update',
+                url: '/Administrator/ClassRoom/Update/'+id,
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json',

@@ -65,7 +65,7 @@
                 console.log(data);
                 // ajax
                 await $.ajax({
-                    url: '/Administrator/Department/Update',
+                    url: '/Administrator/Department/Update/'+id,
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json',

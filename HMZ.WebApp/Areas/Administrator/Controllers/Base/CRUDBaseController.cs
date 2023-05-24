@@ -76,14 +76,14 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
 
         [HttpPost]
         // POST: Base/Update/5
-        public async Task<IActionResult> Update([FromBody] T1 query)
+        public async Task<IActionResult> Update([FromBody] T1 query, string id)
         {
             var method = _service.GetType().GetMethod("UpdateAsync");
             if (method == null)
             {
                 return BadRequest("UpdateAsync method not found");
             }
-            var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query });
+            var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query, id });
             return Ok(result);
         }
 

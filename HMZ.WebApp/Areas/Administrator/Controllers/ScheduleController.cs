@@ -31,9 +31,9 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ScheduleQuery query)
+        public async Task<IActionResult> Update([FromBody] ScheduleQuery query,string id)
         {
-            return await base.Update(query);
+            return await base.Update(query,id);
         }
 
         [HttpPost]
