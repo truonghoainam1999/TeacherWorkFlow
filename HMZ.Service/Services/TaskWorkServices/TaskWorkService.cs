@@ -42,7 +42,7 @@ namespace HMZ.Service.Services.TaskWorkServices
                 RoomId =  Guid.Parse(entity.RoomId),
                 UserId = Guid.Parse(entity.UserId),
                 SubjectId = Guid.Parse(entity.SubjectId),
-            };
+			};
             await _unitOfWork.GetRepository<TaskWork>().Add(taskWork);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
             if (result.Entity == false)
@@ -70,12 +70,20 @@ namespace HMZ.Service.Services.TaskWorkServices
         public async Task<DataResult<TaskWorkView>> GetAll()
         {
             var taskWorks = await _unitOfWork.GetRepository<TaskWork>().AsQueryable()
+            .Include(x => x.ClassRoom)
+            .Include(x => x.User)
+            .Include(x => x.Subject)
                       .Select(x => new TaskWorkView()
                       {
                           Id = x.Id,
+                          Code = x.Code,
+                          RoomName = x.ClassRoom.Name,
+                         Username = x.User.UserName,
+                         SubjectName = x.Subject.Name,
                           RoomId = x.RoomId.ToString(),
                           UserId = x.UserId.ToString(),
                           SubjectId = x.SubjectId.ToString(),
+                         
                           CreatedBy = x.CreatedBy,
                           CreatedAt = x.CreatedAt,
                           UpdatedAt = x.UpdatedAt,
@@ -141,16 +149,20 @@ namespace HMZ.Service.Services.TaskWorkServices
                      .Take(query.PageSize.Value)
                      .Select(x => new TaskWorkView()
                      {
-                         Id = x.Id,
-                         RoomId = x.RoomId.ToString(),
-                         UserId = x.UserId.ToString(),
-                         SubjectId = x.SubjectId.ToString(),
+						 Id = x.Id,
+						 Code = x.Code,
+						 RoomName = x.ClassRoom.Name,
+						 Username = x.User.UserName,
+						 SubjectName = x.Subject.Name,
+						 RoomId = x.RoomId.ToString(),
+						 UserId = x.UserId.ToString(),
+						 SubjectId = x.SubjectId.ToString(),
 
-                         CreatedBy = x.CreatedBy,
-                         CreatedAt = x.CreatedAt,
-                         UpdatedAt = x.UpdatedAt,
-                         IsActive = x.IsActive,
-                     })
+						 CreatedBy = x.CreatedBy,
+						 CreatedAt = x.CreatedAt,
+						 UpdatedAt = x.UpdatedAt,
+						 IsActive = x.IsActive,
+					 })
                      .ApplyFilter(query)
                      .OrderByColums(query.SortColums, true).ToListAsync();
 

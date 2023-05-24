@@ -45,7 +45,7 @@
                             {
                                 @foreach (var item in ViewBag.Users)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Username</option>
                                 }
                             }
                         </select>
@@ -58,7 +58,7 @@
                             {
                                 @foreach (var item in ViewBag.Rooms)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -86,8 +86,8 @@
             };
             console.log(data);
             // ajax
-          await  $.ajax({
-                url: '/Administrator/TaskWork/Create',
+          await $.ajax({
+                url: '/Administrator/TaskWork/Created',
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
@@ -121,6 +121,5 @@
         });
        
     });
-
     </script>
 }

@@ -20,7 +20,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         {
             _classRoomService = classRoomService;
             _userService = userService;
-            _subjectService = subjectService;   
+            _subjectService = subjectService;
         }
 
 
@@ -34,34 +34,27 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
             var classRooms = await _classRoomService.GetAll();
             var users = await _userService.GetAll();
             var subject = await _subjectService.GetAll();
+
             ViewBag.Rooms = classRooms.Items;
             ViewBag.Users = users.Items;
             ViewBag.Subjects = subject.Items;
             return View();
         }
-
+        // POST: Base/Create
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] TaskWorkQuery query)
+        public async Task<IActionResult> Created([FromBody] TaskWorkQuery query)
         {
-            return await base.Update(query);
-        }
+            try
+            {
+                var result = await _service.CreateAsync(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
 
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] string id)
-        {
-            return await base.Delete(id);
-        }
+                return Json(new { Message = ex.Message, Success = false });
+            }
 
-        [HttpPost]
-        public async Task<IActionResult> GetById(string id)
-        {
-            return await base.GetById(id);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetByCode(string code)
-        {
-            return await base.GetByCode(code);
         }
     }
 }

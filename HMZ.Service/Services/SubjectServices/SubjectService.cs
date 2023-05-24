@@ -91,7 +91,9 @@ namespace HMZ.Service.Services.SubjectServices
         public async Task<DataResult<SubjectView>> GetByIdAsync(string id)
         {
             var result = new DataResult<SubjectView>();
-            var subject = await _unitOfWork.GetRepository<Subject>().GetByIdAsync(Guid.Parse(id));
+            var subject = await _unitOfWork.GetRepository<Subject>()
+                .AsQueryable().Include(x => x.Department).FirstOrDefaultAsync(x=>x.Id == Guid.Parse(id));
+               
             if (subject == null)
             {
                 result.Errors.Add("Subject not found");
@@ -104,7 +106,7 @@ namespace HMZ.Service.Services.SubjectServices
                 Name = subject.Name,
                 Description = subject.Description,
                 DepartmentId = subject.DepartmentId.ToString(),
-                DepartmentName = subject.Department.Name,
+                DepartmentName = subject.Department?.Name,
 
                 CreatedBy = subject.CreatedBy,
                 CreatedAt = subject.CreatedAt,
@@ -175,6 +177,7 @@ namespace HMZ.Service.Services.SubjectServices
         public async Task<DataResult<SubjectView>> GetAll()
         {
             var subject = await _unitOfWork.GetRepository<Subject>().AsQueryable()
+                      .Include(x=> x.Department)
                       .Select(x => new SubjectView()
                       {
                           Id = x.Id,

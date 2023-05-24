@@ -11,7 +11,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
     // T2: View
     // T3: Filter
 
-    public class CRUDBaseControlle<T,T1,T2,T3> : Controller
+    public class CRUDBaseControlle<T, T1, T2, T3> : Controller
     {
         protected readonly T _service;
         public CRUDBaseControlle(T service)
@@ -35,7 +35,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var data = await (Task<DataResult<T2>>)getMethod.Invoke(_service, new object[] { queryFilter });
 
             queryFilter.TotalItems = data.TotalRecords.Value;
-                
+
             return Ok(data);
         }
 
@@ -45,20 +45,20 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
         {
             try
             {
-				var method = _service.GetType().GetMethod("CreateAsync");
-				if (method == null)
-				{
-					return Json(new { Message = "CreateAsync method not found", Success = false });
-				}
-				var result = await (Task<DataResult<bool>>)method.Invoke(_service, new object[] { query });
-				return Ok(result);
-			}
+                var method = _service.GetType().GetMethod("CreateAsync");
+                if (method == null)
+                {
+                    return Json(new { Message = "CreateAsync method not found", Success = false });
+                }
+                var result = await (Task<DataResult<bool>>)method.Invoke(_service, new object[] { query });
+                return Ok(result);
+            }
             catch (Exception ex)
             {
 
                 return Json(new { Message = ex.Message, Success = false });
             }
-            
+
         }
 
         [HttpPost]
@@ -84,7 +84,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
                 return BadRequest("UpdateAsync method not found");
             }
             var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query });
-            return  Ok(result);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             var method = _service.GetType().GetMethod("GetByIdAsync");
             if (method == null)
             {
-                return Json (new { Message = "GetByIdAsync method not found", Success = false });
+                return Json(new { Message = "GetByIdAsync method not found", Success = false });
             }
             var result = await (Task<DataResult<T2>>)method.Invoke(_service, new object[] { id });
 
@@ -111,7 +111,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             }
             var result = await (Task<DataResult<T2>>)method.Invoke(_service, new object[] { code });
 
-            return  Ok(result);
+            return Ok(result);
         }
         #endregion
 
