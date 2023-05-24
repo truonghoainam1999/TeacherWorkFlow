@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMZ.Database.Migrations
 {
     [DbContext(typeof(HMZContext))]
-    [Migration("20230524125804_init")]
+    [Migration("20230524141857_init")]
     partial class init
     {
         /// <inheritdoc />

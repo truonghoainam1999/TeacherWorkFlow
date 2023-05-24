@@ -84,6 +84,10 @@ namespace HMZ.Database.Data
                 {
                     await userManager.AddToRoleAsync(user, EUserRoles.Mod.ToString());
                 }
+                else if (user.UserName.Equals(EUserRoles.Author.ToString().ToLower()))
+                {
+                    await userManager.AddToRoleAsync(user, EUserRoles.Author.ToString());
+                }
                 else
                 {
                     await userManager.AddToRoleAsync(user, EUserRoles.Member.ToString());
@@ -121,10 +125,7 @@ namespace HMZ.Database.Data
         {
             var users = new List<User>
             {
-                new User(){ UserName="admin", Email="admin@hmz.com",FirstName="Admin",LastName="Admin",DateOfBirth = new DateTime(01,01,1999)},
-                new User(){ UserName="Author", Email="testgamil0069@gmail.com",FirstName="Test",LastName="Gmail",DateOfBirth = new DateTime(01,01,1999)},
-                new User(){ UserName="author", Email="dangcongvinh328@gmail.com",FirstName="TestThongBao",LastName="Gmail",DateOfBirth = new DateTime(01,01,1999)},
-                new User(){ UserName="Admin", Email="testgamil0069@gmail.com",FirstName="Admin",LastName="Boss",DateOfBirth = new DateTime(01,01,1999)},
+                new User(){ UserName="admin", Email="dangcongvinh328@gmail.com",FirstName="Admin",LastName="Admin",DateOfBirth = new DateTime(01,01,1999)},
                 new User(){ UserName="mod", Email="mod@hmz.com", FirstName="Mod",LastName="Mod",DateOfBirth = new DateTime(01,01,1999)},
                 new User(){ UserName="member", Email="user@hmz.com", FirstName="User",LastName="User",DateOfBirth = new DateTime(01,01,1999)}
             };

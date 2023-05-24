@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HMZ.WebApp.Controllers
 {
-    [Authorize]
+
     public class AuthController : BaseController<IUserService>
     {
         public AuthController(IUserService service) : base(service)

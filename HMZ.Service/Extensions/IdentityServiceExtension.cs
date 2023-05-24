@@ -52,9 +52,9 @@ namespace HMZ.Service.Extensions
             })
             .AddCookie(options =>
             {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.LoginPath = "/Auth/Login";
+                options.LogoutPath = "/Auth/Logout";
+                options.AccessDeniedPath = "/Auth/Login";
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
             })
