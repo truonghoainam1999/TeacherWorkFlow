@@ -126,7 +126,8 @@ namespace HMZ.Database.Migrations
                         name: "FK_Schedules_ClassRooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "ClassRooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

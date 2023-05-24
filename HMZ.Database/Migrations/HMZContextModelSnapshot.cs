@@ -320,9 +320,6 @@ namespace HMZ.Database.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
@@ -342,8 +339,6 @@ namespace HMZ.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("RoomId");
 
@@ -606,10 +601,6 @@ namespace HMZ.Database.Migrations
 
             modelBuilder.Entity("HMZ.Database.Entities.TaskWork", b =>
                 {
-                    b.HasOne("HMZ.Database.Entities.Department", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("DepartmentId");
-
                     b.HasOne("HMZ.Database.Entities.ClassRoom", "ClassRoom")
                         .WithMany("Tasks")
                         .HasForeignKey("RoomId")
@@ -712,8 +703,6 @@ namespace HMZ.Database.Migrations
             modelBuilder.Entity("HMZ.Database.Entities.Department", b =>
                 {
                     b.Navigation("Subjects");
-
-                    b.Navigation("Tasks");
 
                     b.Navigation("Users");
                 });
