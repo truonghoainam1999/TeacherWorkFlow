@@ -17,7 +17,6 @@
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar">
 
-                    </a>
                 </div>
                 <!--end::Card toolbar-->
             </div>
@@ -43,49 +42,75 @@
 </div>
 
 @section Javascript {
-    <script>
-        $(document).ready(function () {
-            $('#saveData').click(async function () {
-                const data = {
-                    name: $('input[name="name"]').val(),
-                };
-                console.log(data);
-                // ajax
-                await $.ajax({
-                    url: '/Administrator/ClassRoom/Update',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            Swal.fire({
-                                title: 'Cập nhập công',
-                                text: 'Cập nhập thành công',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/Administrator/ClassRoom';
-                                }
-                            })
-                        }
-                        else {
-                            Swal.fire({
-                                title: 'Lỗi',
-                                text: res.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
+<script>
+    $(document).ready(function () {
+        const id = window.location.pathname.split('/')[4];
+        console.log(id);
+        getData(id);
+        $('#saveData').click(async function () {
+            const data = {
+                id: id,
+                name: $('input[name="name"]').val(),
+            };
+            console.log(data);
+            // ajax
+            await $.ajax({
+                url: '/Administrator/ClassRoom/Update',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        Swal.fire({
+                            title: 'Cập nhập công',
+                            text: 'Cập nhập thành công',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href =
+                                    '/Administrator/ClassRoom';
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: res.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        })
                     }
-                })
-            });
-
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
         });
+    });
 
-    </script>
+    function getData(id) {
+        $.ajax({
+            url: '/Administrator/ClassRoom/GetById/' + id + '',
+            type: 'POST',
+            success: function (res) {
+                console.log(res);
+                if (res.success) {
+                    $('input[name="code"]').val(res.entity.code);
+                    $('input[name="name"]').val(res.entity.name);
+                } else {
+                    Swal.fire({
+                        title: 'Lỗi',
+                        text: res.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+</script>
 }

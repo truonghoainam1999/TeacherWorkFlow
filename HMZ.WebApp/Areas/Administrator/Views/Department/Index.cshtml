@@ -156,7 +156,8 @@
                                             </span>
                                             <!--end::Svg Icon-->
                                         </a>
-                                            <a href="#" onclick="removeDepartment(${item.id})" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+
+                                        <a href="#" onclick="removeDepartment(${item.id})" id="delete" data="${item.id}" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                             <!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->
                                             <span class="svg-icon svg-icon-3">
                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -181,6 +182,11 @@
                 console.error(error);
             }
         }
+        $('body').on('click', '#kt_table_users #delete', function (e) {
+            e.preventDefault();
+            const itemId = $(this).attr('data');
+            removeDepartment(itemId);
+        });
         // remove Department
          function removeDepartment(id) {
             Swal.fire({
@@ -230,9 +236,5 @@
                 }
             });
         }
-
-
-
-
     </script>
 }
