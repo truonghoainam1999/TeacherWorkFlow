@@ -80,13 +80,13 @@
             const departmentId = $('select[name="department"]').val();
 
             const data = {
-                id: id,
+                
                 name: name,
                 description: description,
                 departmentId: departmentId
             }
             $.ajax({
-                url: '/Administrator/Subject/Update',
+                url: '/Administrator/Subject/Update/'+id+'',
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json',

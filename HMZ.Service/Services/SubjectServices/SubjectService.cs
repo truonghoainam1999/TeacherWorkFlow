@@ -148,7 +148,9 @@ namespace HMZ.Service.Services.SubjectServices
         public async Task<DataResult<int>> UpdateAsync(SubjectQuery entity, string id)
         {
             var result = new DataResult<int>();
-            var subject = await _unitOfWork.GetRepository<Subject>().GetByIdAsync(Guid.Parse(id));
+            var subject = await _unitOfWork.GetRepository<Subject>()
+            .AsQueryable()
+            .FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
             if (subject == null)
             {
                 result.Errors.Add("Subject not found");
