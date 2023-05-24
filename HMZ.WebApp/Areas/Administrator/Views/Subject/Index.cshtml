@@ -33,15 +33,15 @@
                 <!--begin::Card title-->
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar">
-                    <a  href="/Administrator/Subject/Create" class="btn btn-primary" >
+                    <a href="/Administrator/Subject/Create" class="btn btn-primary">
                         <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
                         <span class="svg-icon svg-icon-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                viewBox="0 0 24 24" version="1.1">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
                                 <rect fill="#000000" opacity="0.5"
-                                    transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4"
-                                    y="11" width="16" height="2" rx="1"></rect>
+                                    transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+                                    x="4" y="11" width="16" height="2" rx="1"></rect>
                             </svg>
                         </span>
                         <!--end::Svg Icon--> Thêm mới
@@ -94,8 +94,7 @@
                             <!--begin::Table body-->
                             <tbody class="text-gray-600 fw-bold" id="dataRow">
                                 <!--end::Table row-->
-                                
-                                
+
                             </tbody>
                             <!--end::Table body-->
                         </table>
@@ -113,27 +112,25 @@
     <!--end::Container-->
 </div>
 
-
 @section Javascript {
 <script>
     getSubject(1, 10);
-	async function getSubject(pageNumber, pageSize) {
-	try {
-		const response = await $.ajax({
-			url: '/Administrator/Subject/GetAll',
-			type: 'POST',
-			data: {
-				pageNumber: pageNumber,
-				pageSize: pageSize
-			}
-		});
-
-		console.log(response);
-		if (response.success && response.items.length) {
-			let html = '';
-			for (const item of response.items) {
-				console.log(item);
-				html += ` 
+    async function getSubject(pageNumber, pageSize) {
+        try {
+            const response = await $.ajax({
+                url: '/Administrator/Subject/GetAll',
+                type: 'POST',
+                data: {
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                }
+            });
+            console.log(response);
+            if (response.success && response.items.length) {
+                let html = '';
+                for (const item of response.items) {
+                    console.log(item);
+                    html += ` 
                 <tr class="odd">
                     <!--begin::Checkbox-->
                     <td>
@@ -180,72 +177,63 @@
                                 </td>
                             <!--end::Action=-->
                 </tr>`;
-			}
-			$('#dataRow').html(html);
-		}
-	} catch (error) {
-		// Handle error here
-		console.error(error);
-	}
-}
-        $('body').on('click', '#kt_table_users #delete', function (e) {
-            e.preventDefault();
-            const itemId = $(this).attr('data');
-            removeSubject(itemId);
-        });
-    // remove subject
-    function removeSubject(id) {
-        console.log(id);
-        Swal.fire({
-            title: "Bạn có chắc chắn muốn xóa?",
-            text: "Bạn sẽ không thể khôi phục lại dữ liệu!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Có, xóa nó!",
-            cancelButtonText: "Không, hủy bỏ!",
-            reverseButtons: true
-        }).then(function(result) {
-            if (result.value) {
-                $.ajax({
-                    url: '/Administrator/Subject/Delete',
-                    type: 'POST',
-                    data: JSON.stringify(id),
-                    contentType: 'application/json',
-                    success: function(result) {
-                        if (result.success) {
-                            Swal.fire({
-                                title: "Đã xóa!",
-                                text: "Bạn đã xóa thành công.",
-                                icon: "success",
-                                confirmButtonText: "OK"
-                            }).then(function(result) {
-                                if (result.value) {
-                                    location.reload();
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "Lỗi!",
-                                text: "Đã xảy ra lỗi. Vui lòng thử lại.",
-                                icon: "error",
-                                confirmButtonText: "OK"
-                            });
-                        }
-                    }
-                });
-            } else if (result.dismiss === "cancel") {
-                Swal.fire({
-                    title: "Đã hủy bỏ",
-                    text: "Bạn đã hủy bỏ.",
-                    icon: "error",
-                    confirmButtonText: "OK"
-                });
+                }
+                $('#dataRow').html(html);
             }
-        });
+        } catch (error) {
+            // Handle error here
+            console.error(error);
+        }
+        // remove subject
+        function removeSubject(id) {
+            console.log(id);
+            Swal.fire({
+                title: "Bạn có chắc chắn muốn xóa?",
+                text: "Bạn sẽ không thể khôi phục lại dữ liệu!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Có, xóa nó!",
+                cancelButtonText: "Không, hủy bỏ!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: '/Administrator/Subject/Delete',
+                        type: 'POST',
+                        data: JSON.stringify(id),
+                        contentType: 'application/json',
+                        success: function(result) {
+                            if (result.success) {
+                                Swal.fire({
+                                    title: "Đã xóa!",
+                                    text: "Bạn đã xóa thành công.",
+                                    icon: "success",
+                                    confirmButtonText: "OK"
+                                }).then(function(result) {
+                                    if (result.value) {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Lỗi!",
+                                    text: "Đã xảy ra lỗi. Vui lòng thử lại.",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            }
+                        }
+                    });
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire({
+                        title: "Đã hủy bỏ",
+                        text: "Bạn đã hủy bỏ.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+        }
     }
-
-
-
-
 </script>
 }
