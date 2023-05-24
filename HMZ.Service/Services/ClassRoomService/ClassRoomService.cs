@@ -61,7 +61,7 @@ namespace HMZ.Service.Services.ClassRoomService
                 result.Errors.Add("ClassRoom not found");
                 return result;
             }
-            _unitOfWork.GetRepository<ClassRoom>().Delete(room, false);
+            _unitOfWork.GetRepository<ClassRoom>().Delete(classRoom, false);
             var res = await _unitOfWork.SaveChangesAsync();
             result.Entity = res;
             return result;

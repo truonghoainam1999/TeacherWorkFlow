@@ -59,41 +59,6 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
             var result = await _service.GetByIdAsync(id);
             return Ok(result);
         }
-
-        #region  CRUD
-        [HttpPost]
-        public async Task<IActionResult> GetAll(BaseQuery<ClassRoomFilter> query)
-        {
-            query.PageNumber = query.PageNumber > 0 ? query.PageNumber : 1;
-            query.PageSize = query.PageSize > 0 ? query.PageSize : 10;
-            var classRooms = await _service.GetPageList(query);
-            return Ok(classRooms);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ClassRoomQuery query)
-        {
-            var result = await _service.CreateAsync(query);
-            return Ok(result);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] string id)
-        {
-            var result = await _service.DeleteAsync(id);
-            return Ok(result);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ClassRoomQuery query, string id)
-        {
-            var result = await _service.UpdateAsync(query, id);
-            return Ok(result);
-        }
-        [HttpPost]
-        public async Task<IActionResult> GetById(string id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            return Ok(result);
-        }
-
         #endregion
     }
 }
