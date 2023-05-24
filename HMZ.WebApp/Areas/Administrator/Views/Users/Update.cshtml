@@ -1,0 +1,110 @@
+﻿<div class="post d-flex flex-column-fluid" id="kt_post">
+    <!--begin::Container-->
+    <div id="kt_content_container" class="container">
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <!--begin::Search-->
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <h3>Thêm công việc mới</h3>
+                    </div>
+                    <!--end::Search-->
+                </div>
+                <!--begin::Card title-->
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                </div>
+                <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="">Họ</label>
+                        <input type="text" class="form-control" name="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tên</label>
+                        <input type="text" class="form-control " name="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" class="form-control " name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ngày sinh</label>
+                        <input type="date" class="form-control " name="dateOfBirth">
+                    </div>
+                    <div class="form-group mt-2">
+                        <button id="saveData" class="btn btn-primary">Hoàn thành</button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+    </div>
+    <!--end::Container-->
+</div>
+
+@section Javascript {
+    <script>
+        $(document).ready(function () {
+            const id = window.location.pathname.split('/')[4];
+            console.log(id);
+            loadData(id);
+            $('#saveData').click(function () {
+                saveData(id);
+            })
+        })
+        // Save data
+        function saveData(id) {
+            const data = {
+                firstName: $('input[name="firstName"]').val(),
+                lastName: $('input[name="lastName"]').val(),
+                email: $('input[name="email"]').val(),
+                passWord: $('input[name="passWord"]').val(),
+                dateOfBirth: $('input[name="dateOfBirth"]').val(),
+            }
+            $.ajax({
+                url: '/Administrator/Users/Update/' + id + '',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.success) {
+                        toastr.success("Cập nhật thành công");
+                        setTimeout(() => {
+                            window.location.href = '/Administrator/Users';
+                        }, 1000);
+                    }
+                    else {
+                        toastr.error(res.errors.join('<br/>'));
+                    }
+                }
+            })
+        }
+        // Load data
+        function loadData(id) {
+            $.ajax({
+                url: '/Administrator/Users/GetById/' + id,
+                type: 'POST',
+                success: function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        $('input[name="firstName"]').val(res.entity.firstName);
+                        $('input[name="lastName"]').val(res.entity.lastName);
+                        $('input[name="email"]').val(res.entity.email);
+                        $('input[name="dateOfBirth"]').val(res.entity.dateOfBirth);
+                    } else {
+                        toastr.error(res.errors.join('<br/>'));
+                    }
+                }
+            })
+        }
+    </script>
+}

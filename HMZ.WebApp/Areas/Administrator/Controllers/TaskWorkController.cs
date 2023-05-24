@@ -58,8 +58,8 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         {
             query.PageNumber = query.PageNumber > 0 ? query.PageNumber : 1;
             query.PageSize = query.PageSize > 0 ? query.PageSize : 10;
-            var TaskWorks = await _service.GetPageList(query);
-            return Ok(TaskWorks);
+            var taskWorks = await _service.GetPageList(query);
+            return Ok(taskWorks);
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TaskWorkQuery query)

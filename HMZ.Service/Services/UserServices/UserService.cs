@@ -45,6 +45,7 @@ namespace HMZ.Service.Services.UserServices
             {
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
+                Image = "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg",
                 Email = entity.Email,
                 UserName = entity.Email.Split("@")[0].ToLower(),
                 DateOfBirth = entity.DateOfBirth.Value,
