@@ -15,5 +15,6 @@ namespace HMZ.DTOs.Views
         public String? Token { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public Int32? TotalRecords { get; set; }
+        public String? IdString { get; set; }
     }
 }

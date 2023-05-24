@@ -11,5 +11,6 @@ namespace HMZ.DTOs.Views
     public class ClassRoomView : BaseEntity
     {
         public String? Name { get; set; }
+        public String? IdString { get; set; }
     }
 }

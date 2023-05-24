@@ -184,6 +184,7 @@ namespace HMZ.Service.Services.SubjectServices
                       {
                           Id = x.Id,
                           Name = x.Name,
+                          IdString = x.Id.ToString().ToLower(),
                           Description = x.Description,
                           DepartmentId = x.DepartmentId.ToString(),
                           DepartmentName = x.Department.Name,

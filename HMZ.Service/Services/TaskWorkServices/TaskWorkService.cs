@@ -40,9 +40,12 @@ namespace HMZ.Service.Services.TaskWorkServices
             }
             var taskWork = new TaskWork
             {
+                Id = Guid.NewGuid(),
+                
                 RoomId = Guid.Parse(entity.RoomId),
                 UserId = Guid.Parse(entity.UserId),
-                SubjectId = Guid.Parse(entity.SubjectId)
+                SubjectId = Guid.Parse(entity.SubjectId),
+
             };
             await _unitOfWork.GetRepository<TaskWork>().Add(taskWork);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;

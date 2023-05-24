@@ -522,6 +522,7 @@ namespace HMZ.Service.Services.UserServices
                       .Select(x => new UserView()
                       {
                           Id = x.Id,
+                          IdString = x.Id.ToString().ToLower(),
                           Username = x.UserName,
                           FirstName = x.FirstName,
                           LastName = x.LastName,

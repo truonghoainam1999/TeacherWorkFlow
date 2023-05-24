@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HMZ.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class AddNewData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

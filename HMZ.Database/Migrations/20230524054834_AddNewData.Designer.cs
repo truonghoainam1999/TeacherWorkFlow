@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMZ.Database.Migrations
 {
     [DbContext(typeof(HMZContext))]
-    [Migration("20230524053141_init")]
-    partial class init
+    [Migration("20230524054834_AddNewData")]
+    partial class AddNewData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -41,6 +41,7 @@ namespace HMZ.Service.Services.ClassRoomService
             var classRoom = new ClassRoom
             {
                 Name = entity.Name,
+
             };
             await _unitOfWork.GetRepository<ClassRoom>().Add(classRoom);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
@@ -91,6 +92,7 @@ namespace HMZ.Service.Services.ClassRoomService
                       .Select(x => new ClassRoomView()
                       {
                           Id = x.Id,
+                          IdString = x.Id.ToString().ToLower(),
                           Name = x.Name,
                           Code = x.Code,
                           CreatedBy = x.CreatedBy,
