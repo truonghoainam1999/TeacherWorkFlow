@@ -7,7 +7,7 @@
         public T? Entity { get; set; }
         public String? Username { get; set; }
         public List<String>? SortColums { get; set; }
-
+        public int TotalItems { get; set; }
     }
 }
 

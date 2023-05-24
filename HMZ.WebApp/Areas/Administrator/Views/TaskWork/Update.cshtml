@@ -79,8 +79,12 @@
 @section Javascript {
     <script>
         $(document).ready(function () {
+            const id = window.location.pathname.split('/')[4];
+            console.log(id);
+            getData(id);
             $('#saveData').click(async function () {
                 const data = {
+                    id: id,
                     roomId: $('select[name="roomId"]').val(),
                     userId: $('select[name="userId"]').val(),
                     subjectId: $('select[name="subjectId"]').val(),
@@ -96,17 +100,17 @@
                         console.log(res);
                         if (res.success) {
                             Swal.fire({
-                                title: 'Thành công',
-                                text: 'Cập nhật công việc thành công',
+                                title: 'Cập nhập công',
+                                text: 'Cập nhập thành công',
                                 icon: 'success',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = '/Administrator/TaskWork';
+                                    window.location.href =
+                                        '/Administrator/TaskWork';
                                 }
                             })
-                        }
-                        else {
+                        } else {
                             Swal.fire({
                                 title: 'Lỗi',
                                 text: res.message,
@@ -120,8 +124,32 @@
                     }
                 })
             });
-
         });
 
+        function getData(id) {
+            $.ajax({
+                url: '/Administrator/TaskWork/GetById/' + id + '',
+                type: 'POST',
+                success: function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        $('select[name="roomId"]').val(res.entity.roomId);
+                        $('select[name="userId"]').val(res.entity.userId);
+                        $('select[name="subjectId"]').val(res.entity.subjectId);
+                    } else {
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: res.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        })
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
     </script>
+ 
 }

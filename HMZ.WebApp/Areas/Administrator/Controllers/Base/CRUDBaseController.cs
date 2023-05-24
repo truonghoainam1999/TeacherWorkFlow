@@ -2,6 +2,7 @@
 using HMZ.DTOs.Queries.Base;
 using HMZ.Service.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
 {
@@ -30,10 +31,14 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             {
                 return Json(new { Message = "GetPageList method not found", Success = false });
             }
+
             var data = await (Task<DataResult<T2>>)getMethod.Invoke(_service, new object[] { queryFilter });
+
+            queryFilter.TotalItems = data.TotalRecords.Value;
 
             return Ok(data);
         }
+
         // POST: Base/Create
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] T1 query)
@@ -78,8 +83,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers.Base
             {
                 return BadRequest("UpdateAsync method not found");
             }
-            string id = query.GetType().GetProperty("Id").GetValue(query, null).ToString();
-            var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query, id });
+            var result = await (Task<DataResult<int>>)method.Invoke(_service, new object[] { query });
             return Ok(result);
         }
 
