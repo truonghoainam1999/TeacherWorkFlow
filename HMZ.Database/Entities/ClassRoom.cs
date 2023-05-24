@@ -6,7 +6,7 @@ namespace HMZ.Database.Entities
     {
         public String? Name { get; set; }
 
-        public List<Schedule>? Schedules { get; set; }
-        public List<TaskWork>? Tasks { get; set; }
+        public virtual List<Schedule>? Schedules { get; set; }
+        public virtual List<TaskWork>? Tasks { get; set; }
     }
 }

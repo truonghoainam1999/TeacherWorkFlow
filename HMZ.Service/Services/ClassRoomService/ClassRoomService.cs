@@ -62,7 +62,8 @@ namespace HMZ.Service.Services.ClassRoomService
                 return result;
             }
             _unitOfWork.GetRepository<ClassRoom>().Delete(classRoom, false);
-            result.Entity = await _unitOfWork.SaveChangesAsync();
+            var res = await _unitOfWork.SaveChangesAsync();
+            result.Entity = res;
             return result;
         }
 

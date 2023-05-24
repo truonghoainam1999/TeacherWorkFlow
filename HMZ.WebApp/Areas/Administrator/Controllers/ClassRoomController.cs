@@ -59,7 +59,6 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
             var result = await _service.GetByIdAsync(id);
             return Ok(result);
         }
-
         #endregion
     }
 }

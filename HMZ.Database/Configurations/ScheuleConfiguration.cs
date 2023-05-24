@@ -17,7 +17,7 @@ namespace HMZ.Database.Configurations
             builder.Property(x => x.Week).HasMaxLength(100).IsRequired();
             #endregion Custom
             // Foreign Key
-            builder.HasOne(x => x.Room).WithMany(x => x.Schedules).HasForeignKey(x => x.RoomId);
+            builder.HasOne(x => x.Room).WithMany(x => x.Schedules).HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
