@@ -7,8 +7,8 @@ namespace HMZ.Database.Entities
 		public String? Name { get; set; }
 		public String? Phone { get; set; }
 
-		public List<Subject>? Subjects { get; set; }
-		public List<TaskWork>? Tasks { get; set; }
-		public List<User>? Users { get; set; }
+		public virtual List<Subject>? Subjects { get; set; }
+		public virtual List<TaskWork>? Tasks { get; set; }
+		public virtual List<User>? Users { get; set; }
 	}
 }
