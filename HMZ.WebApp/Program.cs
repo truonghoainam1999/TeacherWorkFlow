@@ -15,6 +15,7 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddCors();
+
 builder.Services.AddIdentityService(builder.Configuration);
 
 
@@ -51,21 +52,21 @@ catch (Exception ex)
 #endregion
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
 
 app.UseRouting();
-
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-app.UseRouting();
+
 app.UseCors(
     options => options.AllowAnyMethod()
         .AllowAnyHeader()
         .SetIsOriginAllowed(origin => true) // allow any origin
         .AllowCredentials() // for signalR
 );
-app.UseAuthentication(); // Enable authentication
+app.UseCookiePolicy();
 
+app.UseAuthentication(); // Enable authentication
 app.UseAuthorization();
 
 app.MapAreaControllerRoute(

@@ -43,15 +43,8 @@ namespace HMZ.WebApp.Controllers
                     new Claim(ClaimTypes.Name, user.FullName),
                 };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            var properties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddHours(15),
-                RedirectUri = "/Administrator/Home/Index",
-                AllowRefresh = true,
-            };
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
+            var userPrincipal = new ClaimsPrincipal(new[] { identity });
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties{ IsPersistent = true });
             return Ok(result);
         }
     }
