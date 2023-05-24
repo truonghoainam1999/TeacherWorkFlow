@@ -129,6 +129,7 @@ namespace HMZ.Service.Services.ScheduleService
                          Day = x.Day,
                          Week = x.Week,
                          RoomId = x.RoomId.ToString(),
+                         RoomName = x.Room.Name,
 
                          CreatedBy = x.CreatedBy,
                          CreatedAt = x.CreatedAt,
@@ -147,8 +148,8 @@ namespace HMZ.Service.Services.ScheduleService
         public async Task<DataResult<int>> UpdateAsync(ScheduleQuery entity, string id)
         {
             var result = new DataResult<int>();
-            var subject = await _unitOfWork.GetRepository<Schedule>().GetByIdAsync(Guid.Parse(id));
-            if (subject == null)
+            var schedules = await _unitOfWork.GetRepository<Schedule>().GetByIdAsync(Guid.Parse(id));
+            if (schedules == null)
             {
                 result.Errors.Add("Schedule not found");
                 return result;
@@ -164,12 +165,12 @@ namespace HMZ.Service.Services.ScheduleService
                 result.Errors.AddRange(resultValidator.JoinError());
                 return result;
             }
-            subject.Day = entity.Date;
-            subject.Time = entity.Time;
-            subject.Week = entity.Week;
-            subject.RoomId = Guid.Parse(entity.RoomId);
+            schedules.Day = entity.Date;
+            schedules.Time = entity.Time;
+            schedules.Week = entity.Week;
+            schedules.RoomId = Guid.Parse(entity.RoomId);
 
-            _unitOfWork.GetRepository<Schedule>().Update(subject);
+            _unitOfWork.GetRepository<Schedule>().Update(schedules);
             result.Entity = await _unitOfWork.SaveChangesAsync();
             return result;
         }

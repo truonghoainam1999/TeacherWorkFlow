@@ -1,6 +1,6 @@
 ﻿using HMZ.DTOs.Fillters;
+using HMZ.DTOs.Queries.Base;
 using HMZ.DTOs.Queries.Catalog;
-using HMZ.DTOs.Views;
 using HMZ.Service.Services.ClassRoomService;
 using HMZ.Service.Services.ScheduleService;
 using HMZ.WebApp.Areas.Administrator.Controllers.Base;
@@ -8,16 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HMZ.WebApp.Areas.Administrator.Controllers
 {
-    public class ScheduleController : CRUDBaseControlle<IScheduleService, ScheduleQuery, ScheduleView, ScheduleFilter>
+    public class ScheduleController : BaseController<IScheduleService>
     {
         private readonly IClassRoomService _classRoomService;
 
-        public ScheduleController(IScheduleService service, IClassRoomService classRoomService) : base(service)
+        public ScheduleController(IScheduleService service, IClassRoomService  classRoomService) : base(service)
         {
             _classRoomService = classRoomService;
         }
-
-
         public IActionResult Index()
         {
             return View();
@@ -26,32 +24,51 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
         public async Task<IActionResult> Create()
         {
             var classRooms = await _classRoomService.GetAll();
-            ViewBag.Rooms = classRooms.Items;
+            ViewBag.ClassRooms = classRooms.Items;
+            return View();
+        }
+        public async Task<IActionResult> Update()
+        {
+            var classRooms = await _classRoomService.GetAll();
+            ViewBag.ClassRooms = classRooms.Items;
             return View();
         }
 
+        #region  CRUD
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ScheduleQuery query,string id)
+        public async Task<IActionResult> GetAll([FromQuery] BaseQuery<ScheduleFilter> query)
         {
-            return await base.Update(query,id);
+            query.PageNumber = query.PageNumber > 0 ? query.PageNumber : 1;
+            query.PageSize = query.PageSize > 0 ? query.PageSize : 10;
+            var Schedules = await _service.GetPageList(query);
+            return Ok(Schedules);
         }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ScheduleQuery query)
+        {
 
+            var result = await _service.CreateAsync(query);
+            return Ok(result);
+        }
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody] string id)
         {
-            return await base.Delete(id);
+            var result = await _service.DeleteAsync(id);
+            return Ok(result);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] ScheduleQuery query, string id)
+        {
+            var result = await _service.UpdateAsync(query, id);
+            return Ok(result);
+        }
         [HttpPost]
         public async Task<IActionResult> GetById(string id)
         {
-            return await base.GetById(id);
+            var result = await _service.GetByIdAsync(id);
+            return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetByCode(string code)
-        {
-            return await base.GetByCode(code);
-        }
+        #endregion
     }
 }

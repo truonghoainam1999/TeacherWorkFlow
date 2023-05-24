@@ -9,7 +9,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <h3>Thêm lớp học mới</h3>
+                        <h3>Cập nhập thời khóa biểu</h3>
                     </div>
                     <!--end::Search-->
                 </div>
@@ -28,12 +28,12 @@
                     <div class="form-group">
                         <label for="">Chọn mã lớp</label>
                         <select name="roomId" class="form-control">
-                            <option value="">Chọn mã lớp</option>
-                            @if (ViewBag.Rooms != null && ViewBag.Rooms.Count > 0)
+                            <option value="">Chọn lớp</option>
+                            @if (ViewBag.ClassRooms != null && ViewBag.ClassRooms.Count > 0)
                             {
-                                @foreach (var item in ViewBag.Rooms)
+                                @foreach (var item in ViewBag.ClassRooms)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -67,55 +67,47 @@
         $(document).ready(function () {
             const id = window.location.pathname.split('/')[4];
             console.log(id);
-            getData(id);
-            $('#saveData').click(async function () {
-                const data = {
-                    id: id,
-                    time: $('input[name="time"]').val(),
-                    date: $('input[name="day"]').val(),
-                    week: $('input[name="week"]').val(),
-                    roomId: $('select[name="roomId"]').val(),
-                };
-                console.log(data);
-                // ajax
-                await $.ajax({
-                    url: '/Administrator/Schedule/Update/'+id,
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            Swal.fire({
-                                title: 'Cập nhập công',
-                                text: 'Cập nhập thành công',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href =
-                                        '/Administrator/Schedule';
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'Lỗi',
-                                text: res.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            });
-        });
+            loadData(id);
+            $('#saveData').click(function () {
+                saveData(id);
+            })
+        })
+        // Save data
+        function saveData(id) {
+            const time = $('input[name="time"]').val();
+            const date = $('input[name="day"]').val();
+            const week = $('input[name="week"]').val();
+            const roomId = $('select[name="roomId"]').val();
 
-        function getData(id) {
+            const data = {
+
+                time: time,
+                date: date,
+                week: week,
+                roomId: roomId,
+            }
             $.ajax({
-                url: '/Administrator/Schedule/GetById/' + id + '',
+                url: '/Administrator/Schedule/Update/' + id + '',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.success) {
+                        toastr.success("Cập nhật thành công");
+                        setTimeout(() => {
+                            window.location.href = '/Administrator/Schedule';
+                        }, 1000);
+                    }
+                    else {
+                        toastr.error(res.errors.join('<br/>'));
+                    }
+                }
+            })
+        }
+        // Load data
+        function loadData(id) {
+            $.ajax({
+                url: '/Administrator/Schedule/GetById/' + id,
                 type: 'POST',
                 success: function (res) {
                     console.log(res);
@@ -125,16 +117,8 @@
                         $('input[name="week"]').val(res.entity.week);
                         $('select[name="roomId"]').val(res.entity.roomId);
                     } else {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: res.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
+                        toastr.error(res.errors.join('<br/>'));
                     }
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
         }

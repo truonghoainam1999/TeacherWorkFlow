@@ -14,5 +14,6 @@ namespace HMZ.DTOs.Views
         public String? Day { get; set; }
         public String? Week { get; set; }
         public String? RoomId { get; set; }
+        public String? RoomName { get; set; }
     }
 }

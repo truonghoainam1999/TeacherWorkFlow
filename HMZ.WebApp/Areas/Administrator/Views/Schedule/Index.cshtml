@@ -70,7 +70,7 @@
                                     </th>
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
-                                        style="width: 125px;">Mã</th>
+                                        style="width: 125px;">Mã lớp</th>
 
                                     <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                         rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"
@@ -144,7 +144,7 @@
                                     </td>
                                     <!--end::Checkbox-->
 
-                                    <td>${item.code}</td>
+                                    <td>${item.roomName}</td>
                                     <td>${item.time}</td>
                                     <td>${item.day}</td>
                                     <td>${item.createdAt}</td>
@@ -152,7 +152,7 @@
                                     <!--begin::Action=-->
                                             <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="/Administrator/Schedule/Update/${item.id}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                    <a href="/Administrator/Schedule/Update/${item.id}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                     <!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

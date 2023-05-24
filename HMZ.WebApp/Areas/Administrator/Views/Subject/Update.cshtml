@@ -64,7 +64,6 @@
 
 @section Javascript {
     <script>
-
         $(document).ready(function() {
             const id = window.location.pathname.split('/')[4];
             console.log(id);
@@ -116,7 +115,7 @@
                         $('input[name="code"]').val(res.entity.code);
                         $('input[name="name"]').val(res.entity.name);
                         $('textarea[name="description"]').val(res.entity.description);
-                        $('select[name="department"]').val(res.entity.department);
+                        $('select[name="department"]').val(res.entity.departmentId);
                     } else {
                         toastr.error(res.errors.join('<br/>'));
                     }

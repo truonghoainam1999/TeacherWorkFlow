@@ -52,74 +52,55 @@
 
 @section Javascript {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const id = window.location.pathname.split('/')[4];
             console.log(id);
-            getData(id);
-            $('#saveData').click(async function() {
-                const data = {
-                    id: id,
-                    name: $('input[name="name"]').val(),
-                    phone: $('input[name="phone"]').val(),
-                };
-                console.log(data);
-                // ajax
-                await $.ajax({
-                    url: '/Administrator/Department/Update/'+id,
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function(res) {
-                        console.log(res);
-                        if (res.success) {
-                            Swal.fire({
-                                title: 'Cập nhập công',
-                                text: 'Cập nhập thành công',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href =
-                                        '/Administrator/Department';
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'Lỗi',
-                                text: res.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        }
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                })
-            });
-        });
+            loadData(id);
+            $('#saveData').click(function () {
+                saveData(id);
+            })
+        })
+        // Save data
+        function saveData(id) {
+            const name = $('input[name="name"]').val();
+            const phone = $('input[name="phone"]').val();
 
-        function getData(id) {
+            const data = {
+                name: name,
+                phone: phone,
+            }
             $.ajax({
-                url: '/Administrator/Department/GetById/' + id + '',
+                url: '/Administrator/Department/Update/' + id + '',
                 type: 'POST',
-                success: function(res) {
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.success) {
+                        toastr.success("Cập nhật thành công");
+                        setTimeout(() => {
+                            window.location.href = '/Administrator/Department';
+                        }, 1000);
+                    }
+                    else {
+                        toastr.error(res.errors.join('<br/>'));
+                    }
+                }
+            })
+        }
+        // Load data
+        function loadData(id) {
+            $.ajax({
+                url: '/Administrator/Department/GetById/' + id,
+                type: 'POST',
+                success: function (res) {
                     console.log(res);
                     if (res.success) {
                         $('input[name="code"]').val(res.entity.code);
                         $('input[name="name"]').val(res.entity.name);
                         $('input[name="phone"]').val(res.entity.phone);
                     } else {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: res.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
+                        toastr.error(res.errors.join('<br/>'));
                     }
-                },
-                error: function(err) {
-                    console.log(err);
                 }
             })
         }
