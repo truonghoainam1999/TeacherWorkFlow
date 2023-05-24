@@ -1,5 +1,6 @@
 ﻿using HMZ.Database.Entities;
 using HMZ.DTOs.Fillters;
+using HMZ.DTOs.Queries;
 using HMZ.DTOs.Queries.Base;
 using HMZ.DTOs.Queries.Catalog;
 using HMZ.DTOs.Views;
@@ -39,10 +40,10 @@ namespace HMZ.Service.Services.TaskWorkServices
             }
             var taskWork = new TaskWork
             {
-                RoomId =  Guid.Parse(entity.RoomId),
+                RoomId = Guid.Parse(entity.RoomId),
                 UserId = Guid.Parse(entity.UserId),
-                SubjectId = Guid.Parse(entity.SubjectId),
-			};
+                SubjectId = Guid.Parse(entity.SubjectId)
+            };
             await _unitOfWork.GetRepository<TaskWork>().Add(taskWork);
             result.Entity = await _unitOfWork.SaveChangesAsync() > 0;
             if (result.Entity == false)
@@ -78,8 +79,8 @@ namespace HMZ.Service.Services.TaskWorkServices
                           Id = x.Id,
                           Code = x.Code,
                           RoomName = x.ClassRoom.Name,
-                         Username = x.User.UserName,
-                         SubjectName = x.Subject.Name,
+                          Username = x.User.UserName,
+                          SubjectName = x.Subject.Name,
                           RoomId = x.RoomId.ToString(),
                           UserId = x.UserId.ToString(),
                           SubjectId = x.SubjectId.ToString(),

@@ -77,49 +77,50 @@
 
 @section Javascript {
     <script>
-    $(document).ready(function () {
-        $('#saveData').click(async function () {
-            const data = {
-                roomId: $('select[name="roomId"]').val(),
-                userId: $('select[name="userId"]').val(),
-                subjectId: $('select[name="subjectId"]').val(),
-            };
-            console.log(data);
-            // ajax
-          await $.ajax({
-                url: '/Administrator/TaskWork/Created',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function (res) {
-                    console.log(res);
-                    if (res.success) {
-                        Swal.fire({
-                            title: 'Thành công',
-                            text: 'Thêm mới công việc thành công',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+        $(document).ready(function () {
+            $('#saveData').click(async function () {
+                const data = {
+                    roomId: $('select[name="roomId"]').val(),
+                    userId: $('select[name="userId"]').val(),
+                    subjectId: $('select[name="subjectId"]').val(),
+                };
+                console.log(data);
+                // ajax
+                await $.ajax({
+                    url: '/Administrator/TaskWork/Create',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (res) {
+                        console.log(res);
+                        if (res.success) {
+                            Swal.fire({
+                                title: 'Thành công',
+                                text: 'Thêm mới thành công',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
                                     window.location.href = '/Administrator/TaskWork';
-                            }
-                        })
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi',
+                                text: res.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
                     }
-                    else {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: res.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
+                })
+            });
+
         });
-       
-    });
+
     </script>
 }

@@ -33,7 +33,7 @@
                             {
                                 @foreach (var item in ViewBag.Subjects)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -46,7 +46,7 @@
                             {
                                 @foreach (var item in ViewBag.Users)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
@@ -59,7 +59,7 @@
                             {
                                 @foreach (var item in ViewBag.Rooms)
                                 {
-                                    <option value="@item.Id">@item.Code</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </select>
