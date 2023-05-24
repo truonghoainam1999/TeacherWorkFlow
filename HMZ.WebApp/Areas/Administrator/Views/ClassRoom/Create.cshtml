@@ -42,48 +42,48 @@
 
 @section Javascript {
     <script>
-    $(document).ready(function () {
-        $('#saveData').click(async function () {
-            const data = {
-                name: $('input[name="name"]').val(),
-            };
-            console.log(data);
-            // ajax
-          await  $.ajax({
-                url: '/Administrator/ClassRoom/Create',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function (res) {
-                    console.log(res);
-                    if (res.success) {
-                        Swal.fire({
-                            title: 'Thành công',
-                            text: 'Thêm mới khoa thành công',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+        $(document).ready(function () {
+            $('#saveData').click(async function () {
+                const data = {
+                    name: $('input[name="name"]').val(),
+                };
+                console.log(data);
+                // ajax
+                await $.ajax({
+                    url: '/Administrator/ClassRoom/Create',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (res) {
+                        console.log(res);
+                        if (res.success) {
+                            Swal.fire({
+                                title: 'Thành công',
+                                text: 'Thêm mới khoa thành công',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
                                     window.location.href = '/Administrator/ClassRoom';
-                            }
-                        })
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi',
+                                text: res.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
                     }
-                    else {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: res.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
+                })
+            });
+
         });
-       
-    });
 
     </script>
 }

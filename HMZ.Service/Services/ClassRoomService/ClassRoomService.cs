@@ -55,13 +55,13 @@ namespace HMZ.Service.Services.ClassRoomService
         public async Task<DataResult<int>> DeleteAsync(string id)
         {
             var result = new DataResult<int>();
-            var room = await _unitOfWork.GetRepository<ClassRoom>().GetByIdAsync(Guid.Parse(id));
-            if (room == null)
+            var classRoom = await _unitOfWork.GetRepository<ClassRoom>().GetByIdAsync(Guid.Parse(id));
+            if (classRoom == null)
             {
                 result.Errors.Add("ClassRoom not found");
                 return result;
             }
-            _unitOfWork.GetRepository<ClassRoom>().Delete(room, false);
+            _unitOfWork.GetRepository<ClassRoom>().Delete(classRoom, false);
             result.Entity = await _unitOfWork.SaveChangesAsync();
             return result;
         }

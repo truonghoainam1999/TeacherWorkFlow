@@ -49,7 +49,7 @@ namespace HMZ.WebApp.Areas.Administrator.Controllers
             return Ok(subjects);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(SubjectQuery query)
+        public async Task<IActionResult> Create([FromBody] SubjectQuery query)
         {
             var result = await _service.CreateAsync(query);
             return Ok(result);
