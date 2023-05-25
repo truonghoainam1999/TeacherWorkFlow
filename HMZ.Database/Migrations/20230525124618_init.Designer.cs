@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMZ.Database.Migrations
 {
     [DbContext(typeof(HMZContext))]
-    [Migration("20230524141857_init")]
+    [Migration("20230525124618_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -321,6 +321,9 @@ namespace HMZ.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")

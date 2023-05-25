@@ -49,7 +49,7 @@ namespace HMZ.Service.Services.UserServices
                 Email = entity.Email,
                 UserName = entity.Email.Split("@")[0].ToLower(),
                 DateOfBirth = entity.DateOfBirth.Value,
-
+                CreatedAt = DateTime.Now,
             };
             var result = await _userManager.CreateAsync(user, entity.Password);
             if (!result.Succeeded)

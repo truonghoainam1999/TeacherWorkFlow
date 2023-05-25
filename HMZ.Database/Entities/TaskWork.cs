@@ -7,7 +7,7 @@ namespace HMZ.Database.Entities
         public Guid? RoomId { get; set; }
         public Guid? UserId { get; set; }
         public Guid? SubjectId { get; set; }
-
+        public String? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 

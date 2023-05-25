@@ -1,4 +1,5 @@
 ﻿using HMZ.DTOs.Fillters;
+using HMZ.DTOs.Queries.Base;
 using HMZ.DTOs.Queries.Catalog;
 using HMZ.DTOs.Views;
 using HMZ.Service.Helpers;
@@ -15,5 +16,5 @@ namespace HMZ.Service.Services.TaskWorkServices
     {
         Task<DataResult<TaskWorkView>> GetAll();
         Task<DataResult<TaskWorkView>> GetByCodeAsync(string taskWorkCode);
-    }
+	}
 }

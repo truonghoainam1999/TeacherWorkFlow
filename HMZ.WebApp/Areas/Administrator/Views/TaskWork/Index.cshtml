@@ -33,7 +33,7 @@
                 <!--begin::Card title-->
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar">
-                    <a  href="/Administrator/TaskWork/Create" class="btn btn-primary" >
+                    <a href="/Administrator/TaskWork/Create" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Thêm dữ liệu">
                         <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
                         <span class="svg-icon svg-icon-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
@@ -161,7 +161,7 @@
                                             <!--begin::Action=-->
                                                     <td>
                                                     <div class="d-flex justify-content-end flex-shrink-0">
-                                                        <a href="/Administrator/TaskWork/Update/${item.id}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                                <a href="/Administrator/TaskWork/Update/${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Cập nhật dữ liệu" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                             <!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -172,7 +172,7 @@
                                                             <!--end::Svg Icon-->
                                                         </a>
 
-                                                        <a href="#" onclick="removeTaskWork(${item.id})" id="delete" data="${item.id}" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                                <a href="#" onclick="removeTaskWork(${item.id})" id="delete" data="${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Xóa dữ liệu" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                             <!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

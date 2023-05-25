@@ -13,11 +13,10 @@ using HMZ.Service.Validator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace HMZ.Service.Services.TaskWorkServices
 {
-    public class TaskWorkService : ServiceBase<IUnitOfWork>, ITaskWorkService
+	public class TaskWorkService : ServiceBase<IUnitOfWork>, ITaskWorkService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMailService _mailService;
@@ -57,24 +56,32 @@ namespace HMZ.Service.Services.TaskWorkServices
             if (result.Entity == false)
             {
                 result.Errors.Add("Error while saving");
-                return result;
+				return result;
             }
-
-            var mailRequest = new MailQuery
-            {
-                ToEmails = new List<string> { "dangcongvinh328@gmail.com" },
-                Subject = "Thông báo tạo mới TaskWork",
-                Body = "Đã có công việc mới mời bạn kiểm tra.",
-                Url = "",
-                Attachments = null,
-            };
-
-            var emailResult = await _mailService.SendEmailAsync(mailRequest);
-            if (!emailResult.Entity)
-            {
-                result.Errors.Add("Error send mail");
-                return result;
-            }
+			// Gửi email
+			if (entity.UserId != null)
+			{
+				Guid userId = Guid.Parse(entity.UserId);
+				var user = await _unitOfWork.GetRepository<User>().AsQueryable().FirstOrDefaultAsync(u => u.Id == userId);
+				if (user != null)
+				{
+                    var mailUser = user.Email;
+					var mailRequest = new MailQuery
+					{
+						ToEmails = new List<string> {mailUser},
+						Subject = "Thông báo tạo mới TaskWork",
+						Body = "Đã có công việc mới mời bạn kiểm tra.",
+						Url = "",
+						Attachments = null,
+					};
+					var emailResult = await _mailService.SendEmailAsync(mailRequest);
+					if (!emailResult.Entity)
+					{
+						result.Errors.Add("Error send mail");
+						return result;
+					}
+				}
+			}
 
             return result;
         }
@@ -225,7 +232,11 @@ namespace HMZ.Service.Services.TaskWorkServices
                 {
                     subject = "Công việc đã quá hạn";
                     body = $"Công việc mã {task.Code} đã quá hạn.Vui lòng liên hệ hội đồng";
-                }
+                    task.IsActive = false;
+
+					_unitOfWork.GetRepository<TaskWork>().Update(task);
+					await _unitOfWork.SaveChangesAsync();
+				}
 
                 // Gửi email
                 if (task.UserId != null)
@@ -246,8 +257,6 @@ namespace HMZ.Service.Services.TaskWorkServices
                 }
             }
         }
-
-
 
         public async Task<DataResult<int>> UpdateAsync(TaskWorkQuery entity, string id)
         {
@@ -292,6 +301,5 @@ namespace HMZ.Service.Services.TaskWorkServices
 
             return result;
         }
-
-    }
+	}
 }

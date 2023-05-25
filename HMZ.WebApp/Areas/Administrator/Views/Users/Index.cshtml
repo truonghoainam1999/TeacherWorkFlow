@@ -160,7 +160,7 @@
 						<!--end::Export-->
 						<!--begin::Add user-->
 						<div class="card-toolbar">
-							<a href="/Administrator/Users/Create" class="btn btn-primary">
+							<a href="/Administrator/Users/Create" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Thêm mới dữ liệu">
 								<!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
 								<span class="svg-icon svg-icon-2">
 									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
@@ -710,7 +710,7 @@
 											<td class="text-end">
 												<!--begin::Menu-->
 														<div class="d-flex justify-content-end flex-shrink-0">
-																	<a href="/Administrator/Users/Update/${item.id}" title="Update" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+																			<a href="/Administrator/Users/Update/${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Cập nhật dữ liệu" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
 																<!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
 																<span class="svg-icon svg-icon-3">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -721,7 +721,7 @@
 																<!--end::Svg Icon-->
 															</a>
 
-															<a href="#" onclick="removeUsers(${item.id})" id="delete" data="${item.id}" title="Delete" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+															<a href="#" onclick="removeUsers(${item.id})" id="delete" data="${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Xóa dữ liệu" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
 																<!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->
 																<span class="svg-icon svg-icon-3">
 																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -745,6 +745,11 @@
 			}
 		});
 	}
+		$('body').on('click', '#kt_table_users #delete', function (e) {
+			e.preventDefault();
+			const itemId = $(this).attr('data');
+			removeUsers(itemId);
+		});
 		// remove User
 		function removeUsers(id) {
 			Swal.fire({
