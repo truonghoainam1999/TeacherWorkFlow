@@ -35,10 +35,12 @@
                     <div class="form-group">
                         <label for="">Email</label>
                         <input type="text" class="form-control " name="email">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <div class="form-group">
                         <label for="">Mật khẩu</label>
                         <input type="text" class="form-control " name="passWord">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <div class="form-group">
                         <label for="">Ngày sinh</label>
@@ -60,11 +62,26 @@
     <script>
         $(document).ready(function () {
             $('#saveData').click(async function () {
+                let password = $('input[name="passWord"]').val();
+                let email = $('input[name="email"]').val();
+
+                let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+                if (!passwordRegex.test(password)) {
+                        $('input[name="passWord"]').next('.fv-plugins-message-container.invalid-feedback').text("Mật khẩu phải từ 6 ký tự trở lên, bao gồm chữ và số, và có ít nhất 1 chữ viết hoa.");
+                    return;
+                }
+
+                let emailRegex = /^[^\s@@]+\@@[^\s@@]+\.[^\s@@]+$/;
+
+                if (!emailRegex.test(email)) {
+                         $('input[name="email"]').next('.fv-plugins-message-container.invalid-feedback').text("Email phải có định dạng hợp lệ.");
+                  return;
+                }
                 const data = {
                     firstName: $('input[name="firstName"]').val(),
                     lastName: $('input[name="lastName"]').val(),
-                    email: $('input[name="email"]').val(),
-                    passWord: $('input[name="passWord"]').val(),
+                    email: email,
+                    passWord: password,
                     dateOfBirth: $('input[name="dateOfBirth"]').val(),
                 };
                 console.log(data);
