@@ -9,7 +9,6 @@ using HMZ.Service.Services.DashboardServices;
 using HMZ.Service.Services.DepartmentServices;
 using HMZ.Service.Services.FileServices;
 using HMZ.Service.Services.PermissionServices;
-using HMZ.Service.Services.Reports;
 using HMZ.Service.Services.RoleServices;
 using HMZ.Service.Services.ScheduleService;
 using HMZ.Service.Services.SubjectServices;
@@ -47,7 +46,6 @@ namespace HMZ.Service.Extensions
             services.AddTransient(typeof(IDepartmentService), typeof(DepartmentService));
             services.AddTransient(typeof(IClassRoomService), typeof(ClassRoomService));
             services.AddTransient(typeof(ITaskWorkService), typeof(TaskWorkService));
-            services.AddTransient(typeof(IReportService), typeof(ReportService));
             
             
 
